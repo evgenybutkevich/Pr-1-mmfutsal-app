@@ -1,0 +1,18 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "My evaluation perion project",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "Butkevich Evgeny",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.3.1",
+    "ember-cli": "^3.20.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4",
+    "pg": "^8.3.0"
+  }
+}

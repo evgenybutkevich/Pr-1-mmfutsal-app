@@ -1,12 +1,12 @@
 {
-  "name": "backend",
+  "name": "mmfutsal-app",
   "version": "1.0.0",
-  "description": "My evaluation perion project",
-  "main": "app.js",
+  "description": "My evaluation period project",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon index.js"
   },
-  "author": "Butkevich Evgeny",
+  "author": "Butkevich Evgeny <e.butkevich@itransition.by>",
   "license": "ISC",
   "dependencies": {
     "config": "^3.3.1",

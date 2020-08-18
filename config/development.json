@@ -1,5 +1,13 @@
 {
     "expressSettings": {
         "PORT": 3000
+    },
+    "pgSettings": {
+        "DIALECT": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "postgres", 
+        "DATABASE": "mmfutsal-app", 
+        "HOST": "localhost", 
+        "PORT": 5432 
     }
 }

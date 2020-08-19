@@ -1,5 +1,5 @@
 const bodyParser = require("body-parser");
-const app = require("./routes/users");
+const app = require("./routes");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

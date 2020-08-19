@@ -2,14 +2,14 @@ const express = require("express");
 const services = require("../services/users");
 const {getIdParam} = require("../helpers");
 
-const app = express();
+const router = express.Router();
 
-app.get("/users", async (req, res) => {
+router.get("/", async (req, res) => {
 	const users = await services.getAll();
 	res.status(200).json(users);
 });
 
-app.get("/users/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
 	const id = getIdParam(req);
 	const user = await services.getById(id);
 
@@ -20,7 +20,7 @@ app.get("/users/:id", async (req, res) => {
 	}
 });
 
-app.post("/users", async (req, res) => {
+router.post("/", async (req, res) => {
 	if (req.body.id) {
 		res.status(400).send("<h2>Bad request: ID should not be provided, since it is determined automatically by the database</h2>");
 	} else {
@@ -29,7 +29,7 @@ app.post("/users", async (req, res) => {
 	}
 });
 
-app.put("users/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
 	const id = getIdParam(req);
     
 	if (req.body.id === id) {
@@ -40,10 +40,10 @@ app.put("users/:id", async (req, res) => {
 	}
 });
 
-app.delete("/$users/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
 	const id = getIdParam(req);
 	await services.remove(id);
 	res.status(200).end();
 });
 
-module.exports = app;
+module.exports = router;

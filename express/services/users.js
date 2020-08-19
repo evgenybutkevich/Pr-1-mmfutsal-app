@@ -1,0 +1,37 @@
+const {models} = require("../../sequelize");
+
+function getAll() {
+    return models.user.findAll();
+}
+
+function getById(id) {
+    return models.user.findByPk(id);
+}
+
+function create(body) {
+    return models.user.create(body);
+}
+
+function update(body, id) {
+    return models.user.update(body, {
+        where: {
+            id: id
+        }
+    });
+}
+
+function remove(id) {
+    return models.user.destroy({
+		where: {
+			id: id
+		}
+	});
+}
+
+module.exports = {
+    getAll,
+	getById,
+	create,
+	update,
+	remove,
+}

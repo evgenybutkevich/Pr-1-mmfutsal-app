@@ -60,8 +60,8 @@ describe("POST /users", () => {
         const numberOfUsersAfter = await models.user.count();
         const userById = await models.user.findByPk(res.body.user.id);
 
-        assert.equal(numberOfUsersBefore + 1, numberOfUsersAfter, "Should create user");
-        assert.equal(newTestUser.user.firstName, userById.firstName, "Should create correct user");
+        assert.equal(numberOfUsersBefore + 1, numberOfUsersAfter, "Should create a new test user");
+        assert.equal(newTestUser.user.firstName, userById.firstName, "Should have equal firstName");
     });
 });
 
@@ -83,8 +83,8 @@ describe("PUT /users/:id", () => {
 
         const testUserAfter = await models.user.findByPk(testUserBefore.id);
         
-        assert.equal(testUserAfter.userName, newUserName, "Should update userName");
-        assert.equal(testUserAfter.email, newEmail, "Should update email");
+        assert.equal(testUserAfter.userName, newUserName, "Should have equal userName");
+        assert.equal(testUserAfter.email, newEmail, "Should have equal email");
     });
 });
 
@@ -111,7 +111,7 @@ describe("DELETE /users/", () => {
         const numberOfUsersAfter = await models.user.count();
         const userById = await models.user.findByPk(newUser.id);
 
-        assert.equal(numberOfUsersBefore, numberOfUsersAfter, "Should delete user");
-        assert.equal(userById, null, "Should delete correct user");
+        assert.equal(numberOfUsersBefore, numberOfUsersAfter, "Should delete a new test user");
+        assert.equal(userById, null, "Should not find a new test user");
     });
 });

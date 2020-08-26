@@ -1,45 +1,49 @@
 const express = require("express");
 const services = require("../services/users");
+const {getIdParam} = require("../helpers");
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
 	const users = await services.getAll();
-	
-	if (users) {                                           //need to compare
-		res.status(200).json(users);
-	} else {
-		res.sendStatus(404);
-	}	
+	res.status(200).json(users);
 });
 
 router.get("/:id", async (req, res) => {
-	const user = await services.getById(req.params.id);
+	const id = getIdParam(req);
+	const user = await services.getById(id);
 
 	if (user) {
 		res.status(200).json(user);
 	} else {
-		res.sendStatus(404);
+		res.status(404).send("<h2>404 - User not found</h2>");
 	}
 });
 
 router.post("/", async (req, res) => {
-	const user = await services.create(req.body.user);
-	res.status(201).json({user});
+	if (req.body.id) {
+		res.status(400).send("<h2>Bad request: ID should not be provided, since it is determined automatically by the database</h2>");
+	} else {
+		await services.create(req.body);
+		res.status(201).end();
+	}
 });
 
 router.put("/:id", async (req, res) => {
-	if (req.body.id === req.params.id) {
-		await services.update(req.body, req.params.id);
-		res.sendStatus(200);
+	const id = getIdParam(req);
+    
+	if (req.body.id === id) {
+		await services.update(req.body, id);
+		res.status(200).end();
 	} else {
-		res.sendStatus(400);
+		res.status(400).send(`<h2>Bad request: param ID (${id}) does not match body ID (${req.body.id})</h2>`);
 	}
 });
 
 router.delete("/:id", async (req, res) => {
-	await services.remove(req.params.id);
-	res.sendStatus(200);
+	const id = getIdParam(req);
+	await services.remove(id);
+	res.status(200).end();
 });
 
 module.exports = router;

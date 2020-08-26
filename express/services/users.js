@@ -8,8 +8,8 @@ function getById(id) {
     return models.user.findByPk(id);
 }
 
-function create(user) {
-    return models.user.create(user);
+function create(body) {
+    return models.user.create(body);
 }
 
 function update(body, id) {

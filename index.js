@@ -1,4 +1,4 @@
-const app = require("./express/app");
+const app = require("./express/routes");
 
 const PORT = 3000;
 

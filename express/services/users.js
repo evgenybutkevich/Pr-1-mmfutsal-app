@@ -12,8 +12,8 @@ function create(user) {
     return models.user.create(user);
 }
 
-function update(body, id) {
-    return models.user.update(body, {
+function update(user, id) {
+    return models.user.update(user, {
         where: {
             id: id
         }

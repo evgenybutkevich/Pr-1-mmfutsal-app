@@ -1,4 +1,5 @@
 const express = require("express");
+const {ValidationError} = require("express-validation");
 const bodyParser = require("body-parser");
 const usersRoutes = require("./users");
 
@@ -14,5 +15,15 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", usersRoutes);
+
+app.use(function(err, req, res, next) {
+	console.log(err.details);
+
+	if (err instanceof ValidationError) {
+	  	return res.status(err.statusCode).json(err)
+	}
+   
+	return res.status(500).json(err)
+})
 
 module.exports = app;

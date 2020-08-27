@@ -6,9 +6,7 @@ module.exports = {
             telephone: "+375 29 139-87-68",
             password: "11111",
             firstName: "Evgeny",
-            lastName: "Butkevich",            
-            createdAt: new Date(),
-            updatedAt: new Date()
+            lastName: "Butkevich"
         },
         {
             userName: "fom4",
@@ -16,9 +14,7 @@ module.exports = {
             telephone: "+375 25 531-87-34",
             password: "22222",
             firstName: "Anton",
-            lastName: "Fomenok",            
-            createdAt: new Date(),
-            updatedAt: new Date()
+            lastName: "Fomenok"
         },
         {
             userName: "ghetto_13",
@@ -26,9 +22,7 @@ module.exports = {
             telephone: "+375 33 603-11-80",
             password: "33333",
             firstName: "Michail",
-            lastName: "Sudnikovich",
-            createdAt: new Date(),
-            updatedAt: new Date()
+            lastName: "Sudnikovich"
         }]);
     },
 

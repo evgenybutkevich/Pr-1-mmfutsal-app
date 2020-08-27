@@ -3,6 +3,7 @@ const assert = require("assert");
 const {models} = require("../sequelize");
 const app = require("../express/routes");
 
+//routes tests
 describe("GET /", () => {
     it("should have status code 200", (done) => {
         supertest(app)
@@ -45,9 +46,7 @@ describe("POST /users", () => {
             telephone: "+375 44 757-53-96",
             password: "44444",
             firstName: "Slava",
-            lastName: "Lykov",            
-            createdAt: new Date(),
-            updatedAt: new Date()
+            lastName: "Lykov"
         }};
 
         const numberOfUsersBefore = await models.user.count();
@@ -56,7 +55,7 @@ describe("POST /users", () => {
             .post("/users")
             .send(newTestUser)
             .expect(201);
-                
+
         const numberOfUsersAfter = await models.user.count();
         const userById = await models.user.findByPk(res.body.user.id);
 
@@ -67,18 +66,18 @@ describe("POST /users", () => {
 
 describe("PUT /users/:id", () => {
     it("should update user and have status code 200", async () => {
-        newUserName = "newUserName";
-        newEmail = "newEmail@gmail.com";
+        const newUserName = "newUserName";
+        const newEmail = "newEmail@gmail.com";
 
         const testUserBefore = await models.user.findOne();
+        testUserBefore.userName = newUserName;
+        testUserBefore.email = newEmail;
+
+        const editTestUser = {user: testUserBefore.toJSON()};
 
         const res = await supertest(app)
             .put(`/users/${testUserBefore.id}`)            
-            .send({
-                id: testUserBefore.id,
-                userName: newUserName,
-                email: newEmail
-            })
+            .send(editTestUser)
             .expect(200);
 
         const testUserAfter = await models.user.findByPk(testUserBefore.id);
@@ -96,9 +95,7 @@ describe("DELETE /users/", () => {
             telephone: "+375 33 641-44-49",
             password: "55555",
             firstName: "Evgeny",
-            lastName: "Gorohovich",            
-            createdAt: new Date(),
-            updatedAt: new Date()
+            lastName: "Gorohovich"
         }};
 
         const numberOfUsersBefore = await models.user.count();
@@ -113,5 +110,50 @@ describe("DELETE /users/", () => {
 
         assert.equal(numberOfUsersBefore, numberOfUsersAfter, "Should delete user");
         assert.equal(userById, null, "Should delete correct user");
+    });
+});
+
+//routes validation tests
+describe("POST /users", () => {
+    it("should return validation error and have status code 400", async () => {
+        const newTestUser = {user: {
+            userName: "su",
+            email: "v.lykov@gmail.com",
+            telephone: "+375 44 757-53-96",
+            password: "44444",
+            firstName: "Slava",
+            lastName: "Lykov"
+        }};
+
+        const res = await supertest(app)
+            .post("/users")
+            .send(newTestUser)
+            .expect(400);
+    });
+});
+
+describe("PUT /users/:id", () => {
+    it("should return validation error and have status code 400", async () => {
+        const newUserName = "newUserName";
+        const newEmail = "newEmail@gmail.com";
+
+        const testUserBefore = await models.user.findOne();
+        testUserBefore.userName = newUserName;
+        testUserBefore.email = newEmail;
+
+        const editTestUser = {user: testUserBefore.toJSON()};
+
+        const res = await supertest(app)
+            .put(`/users/15.5`)            
+            .send(editTestUser)
+            .expect(400);
+    });
+});
+
+describe("DELETE /users/", () => {
+    it.only("should return validation error and have status code 400", async () => {
+        const res = await supertest(app)
+            .delete(`/users/-12`)
+            .expect(400);
     });
 });

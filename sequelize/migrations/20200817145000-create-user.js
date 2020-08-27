@@ -32,10 +32,12 @@ module.exports = {
             },
             createdAt: {
                 allowNull: false,
+                defaultValue: DataTypes.fn('now'),
                 type: DataTypes.DATE
             },
             updatedAt: {
                 allowNull: false,
+                defaultValue: DataTypes.fn('now'),
                 type: DataTypes.DATE
             }
         });

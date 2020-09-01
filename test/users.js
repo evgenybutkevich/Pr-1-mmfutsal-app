@@ -1,7 +1,8 @@
-const supertest = require('supertest');
 const assert = require('assert');
-const { models } = require('../sequelize');
+const supertest = require('supertest');
+
 const app = require('../express/routes');
+const { models } = require('../sequelize');
 
 describe('GET /', () => {
     it('should have status code 200', () => {

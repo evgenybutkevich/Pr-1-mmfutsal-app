@@ -1,5 +1,6 @@
 const express = require('express');
 const { validate } = require('express-validation');
+
 const userServices = require('../services/users');
 const userValidators = require('../validations/users')
 
@@ -30,7 +31,7 @@ router.put('/:id', validate(userValidators.put), async (req, res) => {
 
 	if (user) {
 		await userServices.update(req.body.user, req.params.id);
-		res.sendStatus(200);
+		res.status(200).json({});
 	} else {
 		res.sendStatus(404);
 	}
@@ -41,7 +42,7 @@ router.delete('/:id', validate(userValidators.delete), async (req, res) => {
 
 	if (user) {
 		await userServices.remove(req.params.id);
-		res.sendStatus(200);
+		res.status(200).json({});
 	} else {
 		res.sendStatus(404);
 	}

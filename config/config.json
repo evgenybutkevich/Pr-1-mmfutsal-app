@@ -15,7 +15,5 @@
         "host": "localhost",
         "port": 5433
     },
-    "production": {
-
-    }
+    "production": {}
 }

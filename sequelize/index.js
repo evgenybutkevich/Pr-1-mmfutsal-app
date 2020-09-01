@@ -1,12 +1,12 @@
-const {Sequelize} = require("sequelize");
+const { Sequelize } = require('sequelize');
 
 const pgConfig = {
-    DIALECT: "postgres",
-    USER: "postgres",
-    PASSWORD: "postgres", 
-    DATABASE: "mmfutsal-app", 
-    HOST: "localhost", 
-    PORT: 5432 
+    DIALECT: 'postgres',
+    USER: 'postgres',
+    PASSWORD: 'postgres',
+    DATABASE: 'mmfutsal-app',
+    HOST: 'localhost',
+    PORT: 5432
 }
 
 const sequelize = new Sequelize(pgConfig.DATABASE, pgConfig.USER, pgConfig.PASSWORD, {
@@ -16,10 +16,10 @@ const sequelize = new Sequelize(pgConfig.DATABASE, pgConfig.USER, pgConfig.PASSW
 });
 
 const modelDefiners = [
-    require("./models/user"),
-    // require("./models/player"),
-    // require("./models/season"),
-    // require("./models/team")
+    require('./models/user'),
+    // require('./models/player'),
+    // require('./models/season'),
+    // require('./models/team')
 ];
 
 for (const modelDefiner of modelDefiners) {

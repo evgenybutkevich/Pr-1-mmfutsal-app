@@ -1,4 +1,4 @@
-const {models} = require("../../sequelize");
+const { models } = require('../../sequelize');
 
 function getAll() {
     return models.user.findAll();
@@ -22,16 +22,16 @@ function update(user, id) {
 
 function remove(id) {
     return models.user.destroy({
-		where: {
-			id: id
-		}
-	});
+        where: {
+            id: id
+        }
+    });
 }
 
 module.exports = {
     getAll,
-	getById,
-	create,
-	update,
-	remove,
+    getById,
+    create,
+    update,
+    remove,
 }

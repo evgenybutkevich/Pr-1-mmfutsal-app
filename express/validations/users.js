@@ -14,7 +14,7 @@ const userValidator = {
 				telephone: Joi.string()
 					.required(),
 				password: Joi.string()
-					.regex(/[a-zA-Z0-9]{3,30}/)
+					.regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,15}$/)
 					.required(),
 				firstName: Joi.string()
 					.min(2)

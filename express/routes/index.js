@@ -3,6 +3,7 @@ const cors = require('cors');
 const express = require('express');
 
 const errorHandler = require('../middleware/error-handler');
+const playersRoutes = require('./players');
 const usersRoutes = require('./users');
 
 const app = express();
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 	res.sendStatus(200);
 });
 
+app.use('/players', playersRoutes);
 app.use('/users', usersRoutes);
 
 app.use(errorHandler);

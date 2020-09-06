@@ -16,8 +16,8 @@ const sequelize = new Sequelize(pgConfig.DATABASE, pgConfig.USER, pgConfig.PASSW
 });
 
 const modelDefiners = [
+    require('./models/player'),
     require('./models/user'),
-    // require('./models/player'),
     // require('./models/season'),
     // require('./models/team')
 ];

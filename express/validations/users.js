@@ -1,6 +1,6 @@
 const { Joi } = require('express-validation');
 
-const userValidator = {
+const validations = {
 	post: {
 		body: Joi.object({
 			user: Joi.object({
@@ -12,8 +12,11 @@ const userValidator = {
 					.email()
 					.required(),
 				telephone: Joi.string()
+					.regex(/^\+375 (?:25|29|33|44) (?=.*\d).{3}-(?=.*\d).{2}-(?=.*\d).{2}$/)
 					.required(),
 				password: Joi.string()
+					.min(5)
+					.max(15)
 					.regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,15}$/)
 					.required(),
 				firstName: Joi.string()
@@ -44,9 +47,12 @@ const userValidator = {
 					.email()
 					.required(),
 				telephone: Joi.string()
+					.regex(/^\+375 (?:25|29|33|44) (?=.*\d).{3}-(?=.*\d).{2}-(?=.*\d).{2}$/)
 					.required(),
 				password: Joi.string()
-					.regex(/[a-zA-Z0-9]{3,30}/)
+					.min(5)
+					.max(15)
+					.regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,15}$/)
 					.required(),
 				firstName: Joi.string()
 					.min(2)
@@ -70,4 +76,4 @@ const userValidator = {
 	}
 };
 
-module.exports = userValidator;
+module.exports = validations;

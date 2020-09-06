@@ -34,10 +34,10 @@ describe('POST /users', () => {
     it('should create user and have status code 201', async () => {
         const newTestUser = {
             user: {
-                userName: 'sunbeam',
-                email: 'v.lykov@gmail.com',
-                telephone: '+375 44 757-53-96',
-                password: '44444',
+                userName: 'userName_6',
+                email: 'userName_6@example.com',
+                telephone: '+375 44 666-66-66',
+                password: 'Un66666',
                 firstName: 'Slava',
                 lastName: 'Lykov'
             }
@@ -60,10 +60,10 @@ describe('POST /users', () => {
     it('should return validation error and have status code 400', async () => {
         const newTestUser = {
             user: {
-                userName: 'su',
-                email: 'v.lykov@gmail.com',
-                telephone: '+375 44 757-53-96',
-                password: '44444',
+                userName: 'us',
+                email: 'userName_6@example.com',
+                telephone: '+375 44 666-66-66',
+                password: 'Un66666',
                 firstName: 'Slava',
                 lastName: 'Lykov'
             }
@@ -79,7 +79,7 @@ describe('POST /users', () => {
 describe('PUT /users/:id', () => {
     it('should update user and have status code 200', async () => {
         const newUserName = 'newUserName';
-        const newEmail = 'newEmail@gmail.com';
+        const newEmail = 'newUserName@example.com';
 
         const testUserBefore = await models.user.findOne();
         testUserBefore.userName = newUserName;
@@ -100,7 +100,7 @@ describe('PUT /users/:id', () => {
 
     it('should return validation error and have status code 400', async () => {
         const newUserName = 'newUserName';
-        const newEmail = 'newEmail@gmail.com';
+        const newEmail = 'newUserName@example.com';
 
         const testUserBefore = await models.user.findOne();
         testUserBefore.userName = newUserName;
@@ -119,10 +119,10 @@ describe('DELETE /users/', () => {
     it('should delete user and have status code 200', async () => {
         const newTestUser = {
             user: {
-                userName: '91_sava_91',
-                email: 'e.gorohovich@eximgarant.by',
-                telephone: '+375 33 641-44-49',
-                password: '55555',
+                userName: 'userName_7',
+                email: 'userName_7@example.com',
+                telephone: '+375 33 777-77-77',
+                password: 'Un77777',
                 firstName: 'Evgeny',
                 lastName: 'Gorohovich'
             }

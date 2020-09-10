@@ -3,12 +3,8 @@ const { Joi } = require('express-validation');
 const validations = {
 	post: {
 		body: Joi.object({
-			player: Joi.object({
-				firstName: Joi.string()
-					.min(2)
-					.max(30)
-					.required(),
-				lastName: Joi.string()
+			team: Joi.object({
+				teamName: Joi.string()
 					.min(2)
 					.max(30)
 					.required()
@@ -23,12 +19,8 @@ const validations = {
 				.required()
 		}),
 		body: Joi.object({
-			player: Joi.object({
-				firstName: Joi.string()
-					.min(2)
-					.max(30)
-					.required(),
-				lastName: Joi.string()
+			team: Joi.object({
+				teamName: Joi.string()
 					.min(2)
 					.max(30)
 					.required()

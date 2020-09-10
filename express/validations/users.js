@@ -15,7 +15,7 @@ const validations = {
 					.regex(/^\+375 (?:25|29|33|44) (?=.*\d).{3}-(?=.*\d).{2}-(?=.*\d).{2}$/)
 					.required(),
 				password: Joi.string()
-					.min(5)
+					.min(3)
 					.max(15)
 					.regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,15}$/)
 					.required(),
@@ -26,7 +26,7 @@ const validations = {
 				lastName: Joi.string()
 					.min(2)
 					.max(30)
-					.required(),
+					.required()
 			}).options({ stripUnknown: true })
 		})
 	},
@@ -50,7 +50,7 @@ const validations = {
 					.regex(/^\+375 (?:25|29|33|44) (?=.*\d).{3}-(?=.*\d).{2}-(?=.*\d).{2}$/)
 					.required(),
 				password: Joi.string()
-					.min(5)
+					.min(3)
 					.max(15)
 					.regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,15}$/)
 					.required(),
@@ -61,10 +61,9 @@ const validations = {
 				lastName: Joi.string()
 					.min(2)
 					.max(30)
-					.required(),
+					.required()
 			}).options({ stripUnknown: true })
 		}),
-
 	},
 	delete: {
 		params: Joi.object({

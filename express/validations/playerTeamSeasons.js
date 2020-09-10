@@ -3,14 +3,18 @@ const { Joi } = require('express-validation');
 const validations = {
 	post: {
 		body: Joi.object({
-			player: Joi.object({
-				firstName: Joi.string()
-					.min(2)
-					.max(30)
+			playerTeamSeason: Joi.object({
+				playerId: Joi.number()
+					.integer()
+					.positive()
 					.required(),
-				lastName: Joi.string()
-					.min(2)
-					.max(30)
+				teamId: Joi.number()
+					.integer()
+					.positive()
+					.required(),
+				seasonId: Joi.number()
+					.integer()
+					.positive()
 					.required()
 			}).options({ stripUnknown: true })
 		})
@@ -23,14 +27,18 @@ const validations = {
 				.required()
 		}),
 		body: Joi.object({
-			player: Joi.object({
-				firstName: Joi.string()
-					.min(2)
-					.max(30)
+			playerTeamSeason: Joi.object({
+				playerId: Joi.number()
+					.integer()
+					.positive()
 					.required(),
-				lastName: Joi.string()
-					.min(2)
-					.max(30)
+				teamId: Joi.number()
+					.integer()
+					.positive()
+					.required(),
+				seasonId: Joi.number()
+					.integer()
+					.positive()
 					.required()
 			}).options({ stripUnknown: true })
 		}),

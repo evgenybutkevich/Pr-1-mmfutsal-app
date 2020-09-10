@@ -1,10 +1,12 @@
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 
 const errorHandler = require('../middleware/error-handler');
-const playersRoutes = require('./players');
-const usersRoutes = require('./users');
+
+const basename = path.basename(__filename);
 
 const app = express();
 
@@ -19,8 +21,14 @@ app.get('/', (req, res) => {
 	res.sendStatus(200);
 });
 
-app.use('/players', playersRoutes);
-app.use('/users', usersRoutes);
+fs
+    .readdirSync(__dirname)
+    .filter(file => {
+        return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+	})
+    .forEach(file => {
+		app.use(`/${file.slice(0, -3)}`, require(path.join(__dirname, file)));
+    });
 
 app.use(errorHandler);
 

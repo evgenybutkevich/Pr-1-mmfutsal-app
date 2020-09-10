@@ -1,7 +1,13 @@
-const { DataTypes } = require('sequelize');
+const { Model } = require('sequelize');
 
-module.exports = function(sequelize) {
-    sequelize.define('player', {
+module.exports = (sequelize, DataTypes) => {
+    class Player extends Model {
+        static associate(models) {
+            Player.belongsToMany(models.season, {through: 'playerTeamSeason'});
+            Player.belongsToMany(models.team, {through: 'playerTeamSeason'});
+        }
+    };
+    Player.init({
         id: {
             allowNull: false,
             autoIncrement: true,
@@ -26,5 +32,9 @@ module.exports = function(sequelize) {
             defaultValue: DataTypes.NOW,
             type: DataTypes.DATE
         }
+    }, {
+        sequelize,
+        modelName: 'player',
     });
+    return Player;
 };

@@ -41,8 +41,7 @@ module.exports = {
             lastName: 'Shket'
         }]);
     },
-
     down: async function (queryInterface, Sequelize) {
-        return queryInterface.bulkDelete('users', null, {});
+        return queryInterface.bulkDelete('users', null, { });
     }
 };

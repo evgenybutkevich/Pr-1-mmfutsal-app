@@ -1,37 +1,44 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class User extends Model { };
-    User.init({
+    class Result extends Model {
+        static associate(models) {
+            Result.hasOne(models.playerTeamSeason);
+        }
+    };
+    Result.init({
         id: {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
             type: DataTypes.INTEGER
         },
-        userName: {
-            allowNull: false,
-            type: DataTypes.STRING
+        playerTeamSeasonId: {
+            references: {
+                model: "playerTeamSeason",
+                key: "id"
+            },
+            type: DataTypes.INTEGER,
         },
-        email: {
+        goals: {
             allowNull: false,
-            type: DataTypes.STRING
+            defaultValue: 0,
+            type: DataTypes.INTEGER
         },
-        telephone: {
+        yellowCards: {
             allowNull: false,
-            type: DataTypes.STRING
+            defaultValue: 0,
+            type: DataTypes.INTEGER
         },
-        password: {
+        redCards: {
             allowNull: false,
-            type: DataTypes.STRING
+            defaultValue: 0,
+            type: DataTypes.INTEGER
         },
-        firstName: {
+        gamesPlayed: {
             allowNull: false,
-            type: DataTypes.STRING
-        },
-        lastName: {
-            allowNull: false,
-            type: DataTypes.STRING
+            defaultValue: 0,
+            type: DataTypes.INTEGER
         },
         createdAt: {
             allowNull: false,
@@ -45,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {
         sequelize,
-        modelName: 'user',
+        modelName: 'result',
     });
-    return User;
+    return Result;
 };

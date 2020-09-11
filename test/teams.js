@@ -4,14 +4,6 @@ const supertest = require('supertest');
 const app = require('../express/routes');
 const models = require('../sequelize/models');
 
-describe('GET /', () => {
-    it('should have status code 200', () => {
-        supertest(app)
-            .get('/')
-            .expect(200);
-    });
-});
-
 describe('GET /teams', () => {
     it('should return all teams and have status code 200', () => {
         supertest(app)
@@ -48,8 +40,8 @@ describe('POST /teams', () => {
         const numberOfTeamsAfter = await models.team.count();
         const teamById = await models.team.findByPk(res.body.team.id);
 
-        assert.equal(numberOfTeamsBefore + 1, numberOfTeamsAfter, 'Should create team');
-        assert.equal(newTestTeam.team.teamName, teamById.teamName, 'Should create correct team');
+        assert.strictEqual(numberOfTeamsBefore + 1, numberOfTeamsAfter, 'Should create team');
+        assert.strictEqual(newTestTeam.team.teamName, teamById.teamName, 'Should create correct team');
     });
 
     it('should return validation error and have status code 400', async () => {
@@ -82,7 +74,7 @@ describe('PUT /teams/:id', () => {
 
         const testTeamAfter = await models.team.findByPk(testTeamBefore.id);
 
-        assert.equal(testTeamAfter.teamName, newTeamName, 'Should update teamName');
+        assert.strictEqual(testTeamAfter.teamName, newTeamName, 'Should update teamName');
     });
 
     it('should return validation error and have status code 400', async () => {
@@ -118,8 +110,8 @@ describe('DELETE /teams/', () => {
         const numberOfTeamsAfter = await models.team.count();
         const teamById = await models.team.findByPk(newTeam.id);
 
-        assert.equal(numberOfTeamsBefore, numberOfTeamsAfter, 'Should delete team');
-        assert.equal(teamById, null, 'Should delete correct team');
+        assert.strictEqual(numberOfTeamsBefore, numberOfTeamsAfter, 'Should delete team');
+        assert.strictEqual(teamById, null, 'Should delete correct team');
     });
 
     it('should return validation error and have status code 400', async () => {

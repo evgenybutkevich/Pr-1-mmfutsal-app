@@ -4,14 +4,6 @@ const supertest = require('supertest');
 const app = require('../express/routes');
 const models = require('../sequelize/models');
 
-describe('GET /', () => {
-    it('should have status code 200', () => {
-        supertest(app)
-            .get('/')
-            .expect(200);
-    });
-});
-
 describe('GET /players', () => {
     it('should return all players and have status code 200', () => {
         supertest(app)
@@ -49,8 +41,8 @@ describe('POST /players', () => {
         const numberOfPlayersAfter = await models.player.count();
         const playerById = await models.player.findByPk(res.body.player.id);
 
-        assert.equal(numberOfPlayersBefore + 1, numberOfPlayersAfter, 'Should create player');
-        assert.equal(newTestPlayer.player.firstName, playerById.firstName, 'Should create correct player');
+        assert.strictEqual(numberOfPlayersBefore + 1, numberOfPlayersAfter, 'Should create player');
+        assert.strictEqual(newTestPlayer.player.firstName, playerById.firstName, 'Should create correct player');
     });
 
     it('should return validation error and have status code 400', async () => {
@@ -84,7 +76,7 @@ describe('PUT /players/:id', () => {
 
         const testPlayerAfter = await models.player.findByPk(testPlayerBefore.id);
 
-        assert.equal(testPlayerAfter.firstName, newPlayerName, 'Should update firstName');
+        assert.strictEqual(testPlayerAfter.firstName, newPlayerName, 'Should update firstName');
     });
 
     it('should return validation error and have status code 400', async () => {
@@ -121,8 +113,8 @@ describe('DELETE /players/', () => {
         const numberOfPlayersAfter = await models.player.count();
         const playerById = await models.player.findByPk(newPlayer.id);
 
-        assert.equal(numberOfPlayersBefore, numberOfPlayersAfter, 'Should delete player');
-        assert.equal(playerById, null, 'Should delete correct player');
+        assert.strictEqual(numberOfPlayersBefore, numberOfPlayersAfter, 'Should delete player');
+        assert.strictEqual(playerById, null, 'Should delete correct player');
     });
 
     it('should return validation error and have status code 400', async () => {

@@ -3,7 +3,7 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Result extends Model {
         static associate(models) {
-            Result.hasOne(models.playerTeamSeason);
+            Result.belongsTo(models.playerTeamSeason);
         }
     };
     Result.init({

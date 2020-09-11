@@ -4,14 +4,6 @@ const supertest = require('supertest');
 const app = require('../express/routes');
 const models = require('../sequelize/models');
 
-describe('GET /', () => {
-    it('should have status code 200', () => {
-        supertest(app)
-            .get('/')
-            .expect(200);
-    });
-});
-
 describe('GET /users', () => {
     it('should return all users and have status code 200', () => {
         supertest(app)
@@ -53,8 +45,8 @@ describe('POST /users', () => {
         const numberOfUsersAfter = await models.user.count();
         const userById = await models.user.findByPk(res.body.user.id);
 
-        assert.equal(numberOfUsersBefore + 1, numberOfUsersAfter, 'Should create user');
-        assert.equal(newTestUser.user.firstName, userById.firstName, 'Should create correct user');
+        assert.strictEqual(numberOfUsersBefore + 1, numberOfUsersAfter, 'Should create user');
+        assert.strictEqual(newTestUser.user.firstName, userById.firstName, 'Should create correct user');
     });
 
     it('should return validation error and have status code 400', async () => {
@@ -94,8 +86,8 @@ describe('PUT /users/:id', () => {
 
         const testUserAfter = await models.user.findByPk(testUserBefore.id);
 
-        assert.equal(testUserAfter.userName, newUserName, 'Should update userName');
-        assert.equal(testUserAfter.email, newEmail, 'Should update email');
+        assert.strictEqual(testUserAfter.userName, newUserName, 'Should update userName');
+        assert.strictEqual(testUserAfter.email, newEmail, 'Should update email');
     });
 
     it('should return validation error and have status code 400', async () => {
@@ -138,8 +130,8 @@ describe('DELETE /users/', () => {
         const numberOfUsersAfter = await models.user.count();
         const userById = await models.user.findByPk(newUser.id);
 
-        assert.equal(numberOfUsersBefore, numberOfUsersAfter, 'Should delete user');
-        assert.equal(userById, null, 'Should delete correct user');
+        assert.strictEqual(numberOfUsersBefore, numberOfUsersAfter, 'Should delete user');
+        assert.strictEqual(userById, null, 'Should delete correct user');
     });
 
     it('should return validation error and have status code 400', async () => {

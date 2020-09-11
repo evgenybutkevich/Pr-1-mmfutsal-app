@@ -1,7 +1,11 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class PlayerTeamSeason extends Model { };
+    class PlayerTeamSeason extends Model {
+        static associate(models) {
+            PlayerTeamSeason.hasOne(models.result);
+        }
+    };
     PlayerTeamSeason.init({
         id: {
             allowNull: false,

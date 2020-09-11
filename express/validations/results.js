@@ -9,19 +9,19 @@ const validations = {
 					.positive()
 					.required(),
 				goals: Joi.number()
-					.greater(-1)
+					.allow(0)
 					.integer()
 					.required(),
 				yellowCards: Joi.number()
-					.greater(-1)
+					.allow(0)
 					.integer()
 					.required(),
 				redCards: Joi.number()
-					.greater(-1)
+					.allow(0)
 					.integer()
 					.required(),
 				gamesPlayed: Joi.number()
-					.greater(-1)
+					.allow(0)
 					.integer()
 					.required()
 			}).options({ stripUnknown: true })
@@ -41,19 +41,19 @@ const validations = {
 					.positive()
 					.required(),
 				goals: Joi.number()
-					.greater(-1)
+					.allow(0)
 					.integer()
 					.required(),
 				yellowCards: Joi.number()
-					.greater(-1)
+					.allow(0)
 					.integer()
 					.required(),
 				redCards: Joi.number()
-					.greater(-1)
+					.allow(0)
 					.integer()
 					.required(),
 				gamesPlayed: Joi.number()
-					.greater(-1)
+					.allow(0)
 					.integer()
 					.required()
 			}).options({ stripUnknown: true })

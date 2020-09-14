@@ -1,7 +1,19 @@
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const commonConfig = require('./config/common.json');
+const errorHandler = require('./express/middleware/error-handler');
 const app = require('./express/routes');
 
-const PORT = 3000;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
-app.listen(PORT, () => {
-    console.log(`Express server listening on port ${PORT}...`);
+app.use(cors());
+
+app.use(errorHandler);
+
+app.listen(commonConfig.port, () => {
+    console.log(`Express server listening on port ${commonConfig.port}...`);
 });

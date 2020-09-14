@@ -6,13 +6,8 @@ module.exports = (sequelize, DataTypes) => {
             PlayerTeamSeason.hasOne(models.result);
         }
     };
+
     PlayerTeamSeason.init({
-        id: {
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: DataTypes.INTEGER
-        },
         playerId: {
             references: {
                 model: "player",
@@ -48,5 +43,6 @@ module.exports = (sequelize, DataTypes) => {
         sequelize,
         modelName: 'playerTeamSeason',
     });
+
     return PlayerTeamSeason;
 };

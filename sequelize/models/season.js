@@ -7,13 +7,8 @@ module.exports = (sequelize, DataTypes) => {
             Season.belongsToMany(models.team, { through: 'playerTeamSeason' });
         }
     };
+
     Season.init({
-        id: {
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: DataTypes.INTEGER
-        },
         seasonName: {
             allowNull: false,
             type: DataTypes.STRING
@@ -40,5 +35,6 @@ module.exports = (sequelize, DataTypes) => {
         sequelize,
         modelName: 'season',
     });
+
     return Season;
 };

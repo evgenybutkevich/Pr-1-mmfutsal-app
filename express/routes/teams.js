@@ -8,44 +8,48 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
 	const teams = await services.getAll();
-	res.json({ teams });
+
+	return res.send({ teams });
 });
 
 router.get('/:id', async (req, res) => {
 	const team = await services.getById(req.params.id);
 
-	if (team) {
-		res.json({ team });
-	} else {
-		res.sendStatus(404);
+	if (!team) {
+		return res.sendStatus(404);
 	}
+
+	return res.send({ team });
 });
 
 router.post('/', validate(validations.post), async (req, res) => {
 	const team = await services.create(req.body.team);
-	res.status(201).json({ team });
+
+	return res.status(201).send({ team });
 });
 
 router.put('/:id', validate(validations.put), async (req, res) => {
 	const team = await services.getById(req.params.id);
 
-	if (team) {
-		await services.update(req.body.team, req.params.id);
-		res.status(200).json({});
-	} else {
-		res.sendStatus(404);
+	if (!team) {
+		return res.sendStatus(404);
 	}
+
+	await services.update(req.body.team, req.params.id);
+
+	return res.send({});
 });
 
 router.delete('/:id', validate(validations.delete), async (req, res) => {
 	const team = await services.getById(req.params.id);
 
-	if (team) {
-		await services.remove(req.params.id);
-		res.status(200).json({});
-	} else {
-		res.sendStatus(404);
+	if (!team) {
+		return res.sendStatus(404);
 	}
+
+	await services.remove(req.params.id);
+
+	return res.send({});
 });
 
 module.exports = router;

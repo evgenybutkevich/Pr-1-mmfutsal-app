@@ -5,25 +5,25 @@ const app = require('../express/routes');
 const models = require('../sequelize/models');
 
 describe('GET /seasons', () => {
-    it('should return all seasons and have status code 200', () => {
-        supertest(app)
+    it('should return all seasons', async () => {
+        await supertest(app)
             .get('/seasons')
             .expect(200);
     });
 });
 
 describe('GET /seasons/:id', () => {
-    it('should return season and have status code 200', async () => {
+    it('should return season', async () => {
         const testSeason = await models.season.findOne();
 
-        const res = supertest(app)
+        await supertest(app)
             .get(`/seasons/${testSeason.id}`)
             .expect(200);
     });
 });
 
 describe('POST /seasons', () => {
-    it('should create season and have status code 201', async () => {
+    it('should create season', async () => {
         const newTestSeason = {
             season: {
                 seasonName: 'Test season',
@@ -46,8 +46,8 @@ describe('POST /seasons', () => {
         assert.strictEqual(newTestSeason.season.seasonName, seasonById.seasonName, 'Should create correct season');
     });
 
-    it('should return validation error and have status code 400', async () => {
-        const newTestSeason = {
+    it('should return validation error', async () => {
+        const incorrectSeason = {
             season: {
                 seasonName: 'T',
                 startYear: '2019-09-01',
@@ -55,25 +55,25 @@ describe('POST /seasons', () => {
             }
         };
 
-        const res = await supertest(app)
+        await supertest(app)
             .post('/seasons')
-            .send(newTestSeason)
+            .send(incorrectSeason)
             .expect(400);
     });
 });
 
 describe('PUT /seasons/:id', () => {
-    it('should update season and have status code 200', async () => {
+    it('should update season', async () => {
         const newSeasonName = 'newSeasonName';
 
         const testSeasonBefore = await models.season.findOne();
         testSeasonBefore.seasonName = newSeasonName;
 
-        const editTestSeason = { season: testSeasonBefore.toJSON() };
+        const editedTestSeason = { season: testSeasonBefore.toJSON() };
 
-        const res = await supertest(app)
+        await supertest(app)
             .put(`/seasons/${testSeasonBefore.id}`)
-            .send(editTestSeason)
+            .send(editedTestSeason)
             .expect(200);
 
         const testSeasonAfter = await models.season.findByPk(testSeasonBefore.id);
@@ -81,23 +81,16 @@ describe('PUT /seasons/:id', () => {
         assert.strictEqual(testSeasonAfter.seasonName, newSeasonName, 'Should update seasonName');
     });
 
-    it('should return validation error and have status code 400', async () => {
-        const newSeasonName = 'newSeasonName';
-
-        const testSeasonBefore = await models.season.findOne();
-        testSeasonBefore.seasonName = newSeasonName;
-
-        const editTestSeason = { season: testSeasonBefore.toJSON() };
-
-        const res = await supertest(app)
+    it('should return validation error', async () => {
+        await supertest(app)
             .put('/seasons/15.5')
-            .send(editTestSeason)
+            .send({ season: {} })
             .expect(400);
     });
 });
 
 describe('DELETE /seasons/', () => {
-    it('should delete season and have status code 200', async () => {
+    it('should delete season', async () => {
         const newTestSeason = {
             season: {
                 seasonName: 'Test season',
@@ -109,7 +102,7 @@ describe('DELETE /seasons/', () => {
         const numberOfSeasonsBefore = await models.season.count();
         const newSeason = await models.season.create(newTestSeason.season);
 
-        const res = await supertest(app)
+        await supertest(app)
             .delete(`/seasons/${newSeason.id}`)
             .expect(200);
 
@@ -120,8 +113,8 @@ describe('DELETE /seasons/', () => {
         assert.strictEqual(seasonById, null, 'Should delete correct season');
     });
 
-    it('should return validation error and have status code 400', async () => {
-        const res = await supertest(app)
+    it('should return validation error', async () => {
+        await supertest(app)
             .delete('/seasons/-12')
             .expect(400);
     });

@@ -8,44 +8,48 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
 	const seasons = await services.getAll();
-	res.json({ seasons });
+
+	return res.send({ seasons });
 });
 
 router.get('/:id', async (req, res) => {
 	const season = await services.getById(req.params.id);
 
-	if (season) {
-		res.json({ season });
-	} else {
-		res.sendStatus(404);
+	if (!season) {
+		return res.sendStatus(404);
 	}
+
+	return res.send({ season });
 });
 
 router.post('/', validate(validations.post), async (req, res) => {
 	const season = await services.create(req.body.season);
-	res.status(201).json({ season });
+
+	return res.status(201).send({ season });
 });
 
 router.put('/:id', validate(validations.put), async (req, res) => {
 	const season = await services.getById(req.params.id);
 
-	if (season) {
-		await services.update(req.body.season, req.params.id);
-		res.status(200).json({});
-	} else {
-		res.sendStatus(404);
+	if (!season) {
+		return res.sendStatus(404);
 	}
+
+	await services.update(req.body.season, req.params.id);
+
+	return res.send({});
 });
 
 router.delete('/:id', validate(validations.delete), async (req, res) => {
 	const season = await services.getById(req.params.id);
 
-	if (season) {
-		await services.remove(req.params.id);
-		res.status(200).json({});
-	} else {
-		res.sendStatus(404);
+	if (!season) {
+		return res.sendStatus(404);
 	}
+
+	await services.remove(req.params.id);
+
+	return res.send({});
 });
 
 module.exports = router;

@@ -5,25 +5,25 @@ const app = require('../express/routes');
 const models = require('../sequelize/models');
 
 describe('GET /teams', () => {
-    it('should return all teams and have status code 200', () => {
-        supertest(app)
+    it('should return all teams', async () => {
+        await supertest(app)
             .get('/teams')
             .expect(200);
     });
 });
 
 describe('GET /teams/:id', () => {
-    it('should return team and have status code 200', async () => {
+    it('should return team', async () => {
         const testTeam = await models.team.findOne();
 
-        const res = supertest(app)
+        await supertest(app)
             .get(`/teams/${testTeam.id}`)
             .expect(200);
     });
 });
 
 describe('POST /teams', () => {
-    it('should create team and have status code 201', async () => {
+    it('should create team', async () => {
         const newTestTeam = {
             team: {
                 teamName: 'Lokomotiv'
@@ -44,32 +44,32 @@ describe('POST /teams', () => {
         assert.strictEqual(newTestTeam.team.teamName, teamById.teamName, 'Should create correct team');
     });
 
-    it('should return validation error and have status code 400', async () => {
-        const newTestTeam = {
+    it('should return validation error', async () => {
+        const incorrectTeam = {
             team: {
                 teamName: 'C'
             }
         };
 
-        const res = await supertest(app)
+        await supertest(app)
             .post('/teams')
-            .send(newTestTeam)
+            .send(incorrectTeam)
             .expect(400);
     });
 });
 
 describe('PUT /teams/:id', () => {
-    it('should update team and have status code 200', async () => {
+    it('should update team', async () => {
         const newTeamName = 'newTeamName';
 
         const testTeamBefore = await models.team.findOne();
         testTeamBefore.teamName = newTeamName;
 
-        const editTestTeam = { team: testTeamBefore.toJSON() };
+        const editedTestTeam = { team: testTeamBefore.toJSON() };
 
-        const res = await supertest(app)
+        await supertest(app)
             .put(`/teams/${testTeamBefore.id}`)
-            .send(editTestTeam)
+            .send(editedTestTeam)
             .expect(200);
 
         const testTeamAfter = await models.team.findByPk(testTeamBefore.id);
@@ -77,23 +77,16 @@ describe('PUT /teams/:id', () => {
         assert.strictEqual(testTeamAfter.teamName, newTeamName, 'Should update teamName');
     });
 
-    it('should return validation error and have status code 400', async () => {
-        const newTeamName = 'Bayern';
-
-        const testTeamBefore = await models.team.findOne();
-        testTeamBefore.teamName = newTeamName;
-
-        const editTestTeam = { team: testTeamBefore.toJSON() };
-
-        const res = await supertest(app)
+    it('should return validation error', async () => {
+        await supertest(app)
             .put('/teams/15.5')
-            .send(editTestTeam)
+            .send({ team: {} })
             .expect(400);
     });
 });
 
 describe('DELETE /teams/', () => {
-    it('should delete team and have status code 200', async () => {
+    it('should delete team', async () => {
         const newTestTeam = {
             team: {
                 teamName: 'newTeamName'
@@ -103,7 +96,7 @@ describe('DELETE /teams/', () => {
         const numberOfTeamsBefore = await models.team.count();
         const newTeam = await models.team.create(newTestTeam.team);
 
-        const res = await supertest(app)
+        await supertest(app)
             .delete(`/teams/${newTeam.id}`)
             .expect(200);
 
@@ -114,8 +107,8 @@ describe('DELETE /teams/', () => {
         assert.strictEqual(teamById, null, 'Should delete correct team');
     });
 
-    it('should return validation error and have status code 400', async () => {
-        const res = await supertest(app)
+    it('should return validation error', async () => {
+        await supertest(app)
             .delete('/teams/-12')
             .expect(400);
     });

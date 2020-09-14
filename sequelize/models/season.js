@@ -3,8 +3,8 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Season extends Model {
         static associate(models) {
-            Season.belongsToMany(models.player, {through: 'playerTeamSeason'});
-            Season.belongsToMany(models.team, {through: 'playerTeamSeason'});
+            Season.belongsToMany(models.player, { through: 'playerTeamSeason' });
+            Season.belongsToMany(models.team, { through: 'playerTeamSeason' });
         }
     };
     Season.init({

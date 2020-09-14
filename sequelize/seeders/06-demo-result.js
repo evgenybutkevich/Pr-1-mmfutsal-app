@@ -37,6 +37,6 @@ module.exports = {
         }]);
     },
     down: async function (queryInterface, Sequelize) {
-        return queryInterface.bulkDelete('results', null, { });
+        return queryInterface.bulkDelete('results', null, {});
     }
 };

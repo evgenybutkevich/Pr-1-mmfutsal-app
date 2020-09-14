@@ -31,7 +31,7 @@ router.put('/:id', validate(validations.put), async (req, res) => {
 
 	if (season) {
 		await services.update(req.body.season, req.params.id);
-		res.status(200).json({ });
+		res.status(200).json({});
 	} else {
 		res.sendStatus(404);
 	}
@@ -42,7 +42,7 @@ router.delete('/:id', validate(validations.delete), async (req, res) => {
 
 	if (season) {
 		await services.remove(req.params.id);
-		res.status(200).json({ });
+		res.status(200).json({});
 	} else {
 		res.sendStatus(404);
 	}

@@ -2,19 +2,19 @@ const express = require('express');
 const httpStatus = require('http-status');
 const { validate } = require('express-validation');
 
-const services = require('../services/teams');
+const teamsService = require('../services/teams');
 const validations = require('../validations/teams')
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-	const teams = await services.getAll();
+	const teams = await teamsService.getAll();
 
 	return res.send({ teams });
 });
 
 router.get('/:id', validate(validations.get), async (req, res) => {
-	const team = await services.getById(req.params.id);
+	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {
 		return res.sendStatus(httpStatus.NOT_FOUND);
@@ -24,31 +24,31 @@ router.get('/:id', validate(validations.get), async (req, res) => {
 });
 
 router.post('/', validate(validations.post), async (req, res) => {
-	const team = await services.create(req.body.team);
+	const team = await teamsService.create(req.body.team);
 
-	return res.status(httpStatus.OK).send({ team });
+	return res.send({ team });
 });
 
 router.put('/:id', validate(validations.put), async (req, res) => {
-	const team = await services.getById(req.params.id);
+	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {
 		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
 
-	await services.update(req.body.team, req.params.id);
+	await teamsService.update(req.body.team, req.params.id);
 
 	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
 router.delete('/:id', validate(validations.delete), async (req, res) => {
-	const team = await services.getById(req.params.id);
+	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {
 		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
 
-	await services.remove(req.params.id);
+	await teamsService.remove(req.params.id);
 
 	return res.sendStatus(httpStatus.NO_CONTENT);
 });

@@ -21,7 +21,7 @@ app.use(errorHandler);
 app.use(router);
 
 app.get('/', (req, res) => {
-    res.sendStatus(httpStatus[200]);
+    res.sendStatus(httpStatus.OK);
 });
 
 app.listen(common.express.port, () => {

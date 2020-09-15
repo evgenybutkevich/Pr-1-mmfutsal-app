@@ -24,8 +24,8 @@ app.get('/', (req, res) => {
     res.sendStatus(httpStatus[200]);
 });
 
-// app.listen(common.express.port, () => {
-//     console.log(`Express server listening on port ${common.express.port}...`);
-// });
+app.listen(common.express.port, () => {
+    console.log(`Express server listening on port ${common.express.port}...`);
+});
 
 module.exports = app;

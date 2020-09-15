@@ -1,14 +1,15 @@
 const assert = require('assert');
+const httpStatus = require('http-status');
 const supertest = require('supertest');
 
-const app = require('../express/routes');
+const app = require('../index');
 const models = require('../sequelize/models');
 
 describe('GET /seasons', () => {
     it('should return all seasons', async () => {
         await supertest(app)
             .get('/seasons')
-            .expect(200);
+            .expect(httpStatus.OK);
     });
 });
 
@@ -18,7 +19,7 @@ describe('GET /seasons/:id', () => {
 
         await supertest(app)
             .get(`/seasons/${testSeason.id}`)
-            .expect(200);
+            .expect(httpStatus.OK);
     });
 });
 
@@ -32,18 +33,14 @@ describe('POST /seasons', () => {
             }
         };
 
-        const numberOfSeasonsBefore = await models.season.count();
-
         const res = await supertest(app)
             .post('/seasons')
             .send(newTestSeason)
-            .expect(201);
+            .expect(httpStatus.OK);
 
-        const numberOfSeasonsAfter = await models.season.count();
         const seasonById = await models.season.findByPk(res.body.season.id);
 
-        assert.strictEqual(numberOfSeasonsBefore + 1, numberOfSeasonsAfter, 'Should create season');
-        assert.strictEqual(newTestSeason.season.seasonName, seasonById.seasonName, 'Should create correct season');
+        assert.deepStrictEqual(newTestSeason.season.seasonName, seasonById.seasonName, 'Should create correct season');
     });
 
     it('should return validation error', async () => {
@@ -58,7 +55,7 @@ describe('POST /seasons', () => {
         await supertest(app)
             .post('/seasons')
             .send(incorrectSeason)
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });
 
@@ -74,18 +71,18 @@ describe('PUT /seasons/:id', () => {
         await supertest(app)
             .put(`/seasons/${testSeasonBefore.id}`)
             .send(editedTestSeason)
-            .expect(200);
+            .expect(httpStatus.NO_CONTENT);
 
         const testSeasonAfter = await models.season.findByPk(testSeasonBefore.id);
 
-        assert.strictEqual(testSeasonAfter.seasonName, newSeasonName, 'Should update seasonName');
+        assert.deepStrictEqual(testSeasonAfter.seasonName, newSeasonName, 'Should update seasonName');
     });
 
     it('should return validation error', async () => {
         await supertest(app)
             .put('/seasons/15.5')
             .send({ season: {} })
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });
 
@@ -99,23 +96,20 @@ describe('DELETE /seasons/', () => {
             }
         };
 
-        const numberOfSeasonsBefore = await models.season.count();
         const newSeason = await models.season.create(newTestSeason.season);
 
         await supertest(app)
             .delete(`/seasons/${newSeason.id}`)
-            .expect(200);
+            .expect(httpStatus.NO_CONTENT);
 
-        const numberOfSeasonsAfter = await models.season.count();
         const seasonById = await models.season.findByPk(newSeason.id);
 
-        assert.strictEqual(numberOfSeasonsBefore, numberOfSeasonsAfter, 'Should delete season');
-        assert.strictEqual(seasonById, null, 'Should delete correct season');
+        assert.deepStrictEqual(seasonById, null, 'Should delete correct season');
     });
 
     it('should return validation error', async () => {
         await supertest(app)
             .delete('/seasons/-12')
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });

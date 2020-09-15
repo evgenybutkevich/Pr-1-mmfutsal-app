@@ -1,14 +1,15 @@
 const assert = require('assert');
+const httpStatus = require('http-status');
 const supertest = require('supertest');
 
-const app = require('../express/routes');
+const app = require('../index');
 const models = require('../sequelize/models');
 
 describe('GET /users', () => {
     it('should return all users', async () => {
         await supertest(app)
             .get('/users')
-            .expect(200);
+            .expect(httpStatus.OK);
     });
 });
 
@@ -18,7 +19,7 @@ describe('GET /users/:id', () => {
 
         await supertest(app)
             .get(`/users/${testUser.id}`)
-            .expect(200);
+            .expect(httpStatus.OK);
     });
 });
 
@@ -35,18 +36,14 @@ describe('POST /users', () => {
             }
         };
 
-        const numberOfUsersBefore = await models.user.count();
-
         const res = await supertest(app)
             .post('/users')
             .send(newTestUser)
-            .expect(201);
+            .expect(httpStatus.OK);
 
-        const numberOfUsersAfter = await models.user.count();
         const userById = await models.user.findByPk(res.body.user.id);
 
-        assert.strictEqual(numberOfUsersBefore + 1, numberOfUsersAfter, 'Should create user');
-        assert.strictEqual(newTestUser.user.firstName, userById.firstName, 'Should create correct user');
+        assert.deepStrictEqual(newTestUser.user.firstName, userById.firstName, 'Should create correct user');
     });
 
     it('should return validation error', async () => {
@@ -64,7 +61,7 @@ describe('POST /users', () => {
         await supertest(app)
             .post('/users')
             .send(incorrectUser)
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });
 
@@ -82,19 +79,19 @@ describe('PUT /users/:id', () => {
         await supertest(app)
             .put(`/users/${testUserBefore.id}`)
             .send(editedTestUser)
-            .expect(200);
+            .expect(httpStatus.NO_CONTENT);
 
         const testUserAfter = await models.user.findByPk(testUserBefore.id);
 
-        assert.strictEqual(testUserAfter.userName, newUserName, 'Should update userName');
-        assert.strictEqual(testUserAfter.email, newEmail, 'Should update email');
+        assert.deepStrictEqual(testUserAfter.userName, newUserName, 'Should update userName');
+        assert.deepStrictEqual(testUserAfter.email, newEmail, 'Should update email');
     });
 
     it('should return validation error', async () => {
         await supertest(app)
             .put('/users/15.5')
             .send({ user: {} })
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });
 
@@ -111,23 +108,20 @@ describe('DELETE /users/:id', () => {
             }
         };
 
-        const numberOfUsersBefore = await models.user.count();
         const newUser = await models.user.create(newTestUser.user);
 
         await supertest(app)
             .delete(`/users/${newUser.id}`)
-            .expect(200);
+            .expect(httpStatus.NO_CONTENT);
 
-        const numberOfUsersAfter = await models.user.count();
         const userById = await models.user.findByPk(newUser.id);
 
-        assert.strictEqual(numberOfUsersBefore, numberOfUsersAfter, 'Should delete user');
-        assert.strictEqual(userById, null, 'Should delete correct user');
+        assert.deepStrictEqual(userById, null, 'Should delete correct user');
     });
 
     it('should return validation error', async () => {
         await supertest(app)
             .delete('/users/-12')
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });

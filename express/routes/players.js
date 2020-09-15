@@ -1,4 +1,5 @@
 const express = require('express');
+const httpStatus = require('http-status');
 const { validate } = require('express-validation');
 
 const services = require('../services/players');
@@ -12,11 +13,11 @@ router.get('/', async (req, res) => {
 	return res.send({ players })
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validate(validations.get), async (req, res) => {
 	const player = await services.getById(req.params.id);
 
 	if (!player) {
-		return res.sendStatus(404);
+		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
 
 	return res.send({ player });
@@ -25,31 +26,31 @@ router.get('/:id', async (req, res) => {
 router.post('/', validate(validations.post), async (req, res) => {
 	const player = await services.create(req.body.player);
 
-	return res.status(201).send({ player });
+	return res.status(httpStatus.OK).send({ player });
 });
 
 router.put('/:id', validate(validations.put), async (req, res) => {
 	const player = await services.getById(req.params.id);
 
 	if (!player) {
-		return res.sendStatus(404);
+		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
 
 	await services.update(req.body.player, req.params.id);
 
-	return res.send({});
+	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
 router.delete('/:id', validate(validations.delete), async (req, res) => {
 	const player = await services.getById(req.params.id);
 
 	if (!player) {
-		return res.sendStatus(404);
+		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
 
 	await services.remove(req.params.id);
 
-	return res.send({});
+	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
 module.exports = router;

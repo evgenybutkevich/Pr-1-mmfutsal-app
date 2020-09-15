@@ -1,6 +1,14 @@
 const { Joi } = require('express-validation');
 
 const validations = {
+	get: {
+		params: Joi.object({
+			id: Joi.number()
+				.integer()
+				.positive()
+				.required()
+		})
+	},
 	post: {
 		body: Joi.object({
 			result: Joi.object({

@@ -1,12 +1,22 @@
 const { Joi } = require('express-validation');
 
+const common = require('./common');
+
 const validations = {
+	get: {
+		params: Joi.object({
+			id: Joi.number()
+				.integer()
+				.positive()
+				.required()
+		})
+	},
 	post: {
 		body: Joi.object({
 			team: Joi.object({
 				teamName: Joi.string()
-					.min(2)
-					.max(30)
+					.min(common.teamNameMinLength)
+					.max(common.teamNameMaxLength)
 					.required()
 			}).options({ stripUnknown: true })
 		})
@@ -21,8 +31,8 @@ const validations = {
 		body: Joi.object({
 			team: Joi.object({
 				teamName: Joi.string()
-					.min(2)
-					.max(30)
+					.min(common.teamNameMinLength)
+					.max(common.teamNameMaxLength)
 					.required()
 			}).options({ stripUnknown: true })
 		}),

@@ -1,14 +1,15 @@
 const assert = require('assert');
+const httpStatus = require('http-status');
 const supertest = require('supertest');
 
-const app = require('../express/routes');
+const app = require('../index');
 const models = require('../sequelize/models');
 
 describe('GET /teams', () => {
     it('should return all teams', async () => {
         await supertest(app)
             .get('/teams')
-            .expect(200);
+            .expect(httpStatus.OK);
     });
 });
 
@@ -18,7 +19,7 @@ describe('GET /teams/:id', () => {
 
         await supertest(app)
             .get(`/teams/${testTeam.id}`)
-            .expect(200);
+            .expect(httpStatus.OK);
     });
 });
 
@@ -30,18 +31,14 @@ describe('POST /teams', () => {
             }
         };
 
-        const numberOfTeamsBefore = await models.team.count();
-
         const res = await supertest(app)
             .post('/teams')
             .send(newTestTeam)
-            .expect(201);
+            .expect(httpStatus.OK);
 
-        const numberOfTeamsAfter = await models.team.count();
         const teamById = await models.team.findByPk(res.body.team.id);
 
-        assert.strictEqual(numberOfTeamsBefore + 1, numberOfTeamsAfter, 'Should create team');
-        assert.strictEqual(newTestTeam.team.teamName, teamById.teamName, 'Should create correct team');
+        assert.deepStrictEqual(newTestTeam.team.teamName, teamById.teamName, 'Should create correct team');
     });
 
     it('should return validation error', async () => {
@@ -54,7 +51,7 @@ describe('POST /teams', () => {
         await supertest(app)
             .post('/teams')
             .send(incorrectTeam)
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });
 
@@ -70,18 +67,18 @@ describe('PUT /teams/:id', () => {
         await supertest(app)
             .put(`/teams/${testTeamBefore.id}`)
             .send(editedTestTeam)
-            .expect(200);
+            .expect(httpStatus.NO_CONTENT);
 
         const testTeamAfter = await models.team.findByPk(testTeamBefore.id);
 
-        assert.strictEqual(testTeamAfter.teamName, newTeamName, 'Should update teamName');
+        assert.deepStrictEqual(testTeamAfter.teamName, newTeamName, 'Should update teamName');
     });
 
     it('should return validation error', async () => {
         await supertest(app)
             .put('/teams/15.5')
             .send({ team: {} })
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });
 
@@ -93,23 +90,20 @@ describe('DELETE /teams/', () => {
             }
         };
 
-        const numberOfTeamsBefore = await models.team.count();
         const newTeam = await models.team.create(newTestTeam.team);
 
         await supertest(app)
             .delete(`/teams/${newTeam.id}`)
-            .expect(200);
+            .expect(httpStatus.NO_CONTENT);
 
-        const numberOfTeamsAfter = await models.team.count();
         const teamById = await models.team.findByPk(newTeam.id);
 
-        assert.strictEqual(numberOfTeamsBefore, numberOfTeamsAfter, 'Should delete team');
-        assert.strictEqual(teamById, null, 'Should delete correct team');
+        assert.deepStrictEqual(teamById, null, 'Should delete correct team');
     });
 
     it('should return validation error', async () => {
         await supertest(app)
             .delete('/teams/-12')
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });

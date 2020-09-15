@@ -1,14 +1,15 @@
 const assert = require('assert');
+const httpStatus = require('http-status');
 const supertest = require('supertest');
 
-const app = require('../express/routes');
+const app = require('../index');
 const models = require('../sequelize/models');
 
 describe('GET /players', () => {
     it('should return all players', async () => {
         await supertest(app)
             .get('/players')
-            .expect(200);
+            .expect(httpStatus.OK);
     });
 });
 
@@ -18,7 +19,7 @@ describe('GET /players/:id', () => {
 
         await supertest(app)
             .get(`/players/${testPlayer.id}`)
-            .expect(200);
+            .expect(httpStatus.OK);
     });
 });
 
@@ -31,18 +32,14 @@ describe('POST /players', () => {
             }
         };
 
-        const numberOfPlayersBefore = await models.player.count();
-
         const res = await supertest(app)
             .post('/players')
             .send(newTestPlayer)
-            .expect(201);
+            .expect(httpStatus.OK);
 
-        const numberOfPlayersAfter = await models.player.count();
         const playerById = await models.player.findByPk(res.body.player.id);
 
-        assert.strictEqual(numberOfPlayersBefore + 1, numberOfPlayersAfter, 'Should create player');
-        assert.strictEqual(newTestPlayer.player.firstName, playerById.firstName, 'Should create correct player');
+        assert.deepStrictEqual(newTestPlayer.player.firstName, playerById.firstName, 'Should create correct player');
     });
 
     it('should return validation error', async () => {
@@ -56,7 +53,7 @@ describe('POST /players', () => {
         await supertest(app)
             .post('/players')
             .send(incorrectPlayer)
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });
 
@@ -72,18 +69,18 @@ describe('PUT /players/:id', () => {
         await supertest(app)
             .put(`/players/${testPlayerBefore.id}`)
             .send(editedTestPlayer)
-            .expect(200);
+            .expect(httpStatus.NO_CONTENT);
 
         const testPlayerAfter = await models.player.findByPk(testPlayerBefore.id);
 
-        assert.strictEqual(testPlayerAfter.firstName, newPlayerName, 'Should update firstName');
+        assert.deepStrictEqual(testPlayerAfter.firstName, newPlayerName, 'Should update firstName');
     });
 
     it('should return validation error', async () => {
         await supertest(app)
             .put('/players/15.5')
             .send({ player: {} })
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });
 
@@ -96,23 +93,20 @@ describe('DELETE /players/:id', () => {
             }
         };
 
-        const numberOfPlayersBefore = await models.player.count();
         const newPlayer = await models.player.create(newTestPlayer.player);
 
         await supertest(app)
             .delete(`/players/${newPlayer.id}`)
-            .expect(200);
+            .expect(httpStatus.NO_CONTENT);
 
-        const numberOfPlayersAfter = await models.player.count();
         const playerById = await models.player.findByPk(newPlayer.id);
 
-        assert.strictEqual(numberOfPlayersBefore, numberOfPlayersAfter, 'Should delete player');
-        assert.strictEqual(playerById, null, 'Should delete correct player');
+        assert.deepStrictEqual(playerById, null, 'Should delete correct player');
     });
 
     it('should return validation error', async () => {
         await supertest(app)
             .delete('/players/-12')
-            .expect(400);
+            .expect(httpStatus.BAD_REQUEST);
     });
 });

@@ -1,31 +1,39 @@
 const { Joi } = require('express-validation');
 
+const common = require('./common');
+
 const validations = {
+	get: {
+		params: Joi.object({
+			id: Joi.number()
+				.integer()
+				.positive()
+				.required()
+		})
+	},
 	post: {
 		body: Joi.object({
 			user: Joi.object({
 				userName: Joi.string()
-					.min(5)
-					.max(30)
+					.min(common.userNameMinLength)
+					.max(common.userNameMaxLength)
 					.required(),
 				email: Joi.string()
 					.email()
 					.required(),
 				telephone: Joi.string()
-					.regex(/^\+375 (?:25|29|33|44) (?=.*\d).{3}-(?=.*\d).{2}-(?=.*\d).{2}$/)
+					.regex(common.telephoneRegex)
 					.required(),
 				password: Joi.string()
-					.min(3)
-					.max(15)
-					.regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,15}$/)
+					.regex(common.passwordRegex)
 					.required(),
 				firstName: Joi.string()
-					.min(2)
-					.max(30)
+					.min(common.firstNameMinLength)
+					.max(common.firstNameMaxLength)
 					.required(),
 				lastName: Joi.string()
-					.min(2)
-					.max(30)
+					.min(common.lastNameMinLength)
+					.max(common.lastNameMaxLength)
 					.required()
 			}).options({ stripUnknown: true })
 		})
@@ -40,27 +48,25 @@ const validations = {
 		body: Joi.object({
 			user: Joi.object({
 				userName: Joi.string()
-					.min(5)
-					.max(30)
+					.min(common.userNameMinLength)
+					.max(common.userNameMaxLength)
 					.required(),
 				email: Joi.string()
 					.email()
 					.required(),
 				telephone: Joi.string()
-					.regex(/^\+375 (?:25|29|33|44) (?=.*\d).{3}-(?=.*\d).{2}-(?=.*\d).{2}$/)
+					.regex(common.telephoneRegex)
 					.required(),
 				password: Joi.string()
-					.min(3)
-					.max(15)
-					.regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,15}$/)
+					.regex(common.passwordRegex)
 					.required(),
 				firstName: Joi.string()
-					.min(2)
-					.max(30)
+					.min(common.firstNameMinLength)
+					.max(common.firstNameMaxLength)
 					.required(),
 				lastName: Joi.string()
-					.min(2)
-					.max(30)
+					.min(common.lastNameMinLength)
+					.max(common.lastNameMaxLength)
 					.required()
 			}).options({ stripUnknown: true })
 		}),

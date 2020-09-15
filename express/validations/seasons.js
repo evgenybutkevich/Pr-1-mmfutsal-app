@@ -1,12 +1,22 @@
 const { Joi } = require('express-validation');
 
+const common = require('./common');
+
 const validations = {
+	get: {
+		params: Joi.object({
+			id: Joi.number()
+				.integer()
+				.positive()
+				.required()
+		})
+	},
 	post: {
 		body: Joi.object({
 			season: Joi.object({
 				seasonName: Joi.string()
-					.min(2)
-					.max(30)
+					.min(common.seasonNameMinLength)
+					.max(common.seasonNameMaxLength)
 					.required(),
 				startYear: Joi.date()
 					.greater('2010-01-01')
@@ -29,8 +39,8 @@ const validations = {
 		body: Joi.object({
 			season: Joi.object({
 				seasonName: Joi.string()
-					.min(2)
-					.max(30)
+					.min(common.seasonNameMinLength)
+					.max(common.seasonNameMaxLength)
 					.required(),
 				startYear: Joi.date()
 					.greater('2010-01-01')

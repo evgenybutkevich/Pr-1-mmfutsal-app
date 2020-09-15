@@ -1,11 +1,12 @@
+const httpStatus = require('http-status');
 const supertest = require('supertest');
 
-const app = require('../express/routes');
+const app = require('../index');
 
 describe('GET /', () => {
-    it('', async () => {
+    it('should return status OK', async () => {
         await supertest(app)
             .get('/')
-            .expect(200);
+            .expect(httpStatus.OK);
     });
 });

@@ -9,12 +9,6 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     Season.init({
-        id: {
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: DataTypes.INTEGER
-        },
         seasonName: {
             allowNull: false,
             type: DataTypes.STRING

@@ -1,0 +1,8 @@
+const router = require('express').Router();
+
+router.use('/players', require('./players'));
+router.use('/seasons', require('./seasons'));
+router.use('/teams', require('./teams'));
+router.use('/users', require('./users'));
+
+module.exports = router;

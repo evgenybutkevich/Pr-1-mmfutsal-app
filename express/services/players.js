@@ -1,19 +1,19 @@
 const models = require('../../sequelize/models');
 
 function getAll() {
-    return models.user.findAll();
+    return models.player.findAll();
 }
 
 function getById(id) {
-    return models.user.findByPk(id);
+    return models.player.findByPk(id);
 }
 
-function create(user) {
-    return models.user.create(user);
+function create(player) {
+    return models.player.create(player);
 }
 
-function update(user, id) {
-    return models.user.update(user, {
+function update(player, id) {
+    return models.player.update(player, {
         where: {
             id: id
         }
@@ -21,7 +21,7 @@ function update(user, id) {
 }
 
 function remove(id) {
-    return models.user.destroy({
+    return models.player.destroy({
         where: {
             id: id
         }

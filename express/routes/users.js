@@ -1,49 +1,56 @@
-const express = require("express");
-const services = require("../services/users");
-const {getIdParam} = require("../helpers");
+const express = require('express');
+const httpStatus = require('http-status');
+const { validate } = require('express-validation');
 
-const app = express();
+const usersService = require('../services/users');
+const validations = require('../validations/users')
 
-app.get("/users", async (req, res) => {
-	const users = await services.getAll();
-	res.status(200).json(users);
+const router = express.Router();
+
+router.get('/', async (req, res) => {
+	const users = await usersService.getAll();
+
+	return res.send({ users });
 });
 
-app.get("/users/:id", async (req, res) => {
-	const id = getIdParam(req);
-	const user = await services.getById(id);
+router.get('/:id', validate(validations.get), async (req, res) => {
+	const user = await usersService.getById(req.params.id);
 
-	if (user) {
-		res.status(200).json(user);
-	} else {
-		res.status(404).send("<h2>404 - User not found</h2>");
+	if (!user) {
+		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
+
+	return res.send({ user });
 });
 
-app.post("/users", async (req, res) => {
-	if (req.body.id) {
-		res.status(400).send("<h2>Bad request: ID should not be provided, since it is determined automatically by the database</h2>");
-	} else {
-		await services.create(req.body);
-		res.status(201).end();
+router.post('/', validate(validations.post), async (req, res) => {
+	const user = await usersService.create(req.body.user);
+
+	return res.send({ user });
+});
+
+router.put('/:id', validate(validations.put), async (req, res) => {
+	const user = await usersService.getById(req.params.id);
+
+	if (!user) {
+		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
+
+	await usersService.update(req.body.user, req.params.id);
+
+	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-app.put("users/:id", async (req, res) => {
-	const id = getIdParam(req);
-    
-	if (req.body.id === id) {
-		await services.update(req.body, id);
-		res.status(200).end();
-	} else {
-		res.status(400).send(`<h2>Bad request: param ID (${id}) does not match body ID (${req.body.id})</h2>`);
+router.delete('/:id', validate(validations.delete), async (req, res) => {
+	const user = await usersService.getById(req.params.id);
+
+	if (!user) {
+		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
+
+	await usersService.remove(req.params.id);
+
+	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-app.delete("/$users/:id", async (req, res) => {
-	const id = getIdParam(req);
-	await services.remove(id);
-	res.status(200).end();
-});
-
-module.exports = app;
+module.exports = router;

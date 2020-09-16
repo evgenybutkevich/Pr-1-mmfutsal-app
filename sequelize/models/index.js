@@ -19,22 +19,14 @@ sequelize
 
 const db = {};
 
-const isHidden = file => {
-    return file.indexOf('.') !== 0;
-}
-
-const isBasename = (file, basename) => {
-    return file !== basename;
-}
-
-const isJavaScript = file => {
-    return file.slice(-3) === '.js'
+function isSequelizeModelFile(basename, file) {
+    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
 }
 
 fs
     .readdirSync(__dirname)
     .filter(file => {
-        return isHidden(file) && isBasename(file, basename) && isJavaScript(file);
+        return isSequelizeModelFile(basename, file);
     })
     .forEach(file => {
         const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);

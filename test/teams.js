@@ -11,6 +11,43 @@ describe('GET /teams', () => {
             .get('/teams')
             .expect(httpStatus.OK);
     });
+
+    it('should return all teams sorted by id', async () => {
+        const res = await supertest(app)
+            .get('/teams')
+            .query({
+                sortField: 'id',
+                sortDirection: 'ASC'
+            })
+            .expect(httpStatus.OK);
+
+        const sortedTeams = await models.team.findAll({
+            order: [
+                ['id', 'ASC']
+            ],
+            raw: true
+        });
+
+        const teamsIdSortedByParams = res.body.teams.map((team) => {
+            return { id: team.id }
+        });
+
+        const teamsIdSortedManually = sortedTeams.map((team) => {
+            return { id: team.id }
+        });
+
+        assert.deepStrictEqual(teamsIdSortedByParams, teamsIdSortedManually, 'Should sort teams by ascending id');
+    });
+
+    it('should return validation error', async () => {
+        await supertest(app)
+            .get('/teams')
+            .query({
+                sortField: 'userName',
+                sortDirection: 'ASC'
+            })
+            .expect(httpStatus.BAD_REQUEST);
+    });
 });
 
 describe('GET /teams/:id', () => {

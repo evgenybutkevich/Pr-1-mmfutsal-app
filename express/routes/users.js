@@ -7,8 +7,11 @@ const validations = require('../validations/users')
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-	const users = await usersService.getAll();
+router.get('/', validate(validations.get), async (req, res) => {
+	const users = await usersService.getAll(
+		req.query.sortField,
+		req.query.sortDirection
+	);
 
 	return res.send({ users });
 });

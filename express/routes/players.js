@@ -7,8 +7,11 @@ const validations = require('../validations/players')
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-	const players = await playersService.getAll();
+router.get('/', validate(validations.get), async (req, res) => {
+	const players = await playersService.getAll(
+		req.query.sortField,
+		req.query.sortDirection
+	);
 
 	return res.send({ players })
 });

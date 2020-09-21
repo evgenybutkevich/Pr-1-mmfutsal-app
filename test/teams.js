@@ -39,12 +39,53 @@ describe('GET /teams', () => {
         assert.deepStrictEqual(teamsIdSortedByParams, teamsIdSortedManually, 'Should sort teams by ascending id');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid sortField', async () => {
         await supertest(app)
             .get('/teams')
             .query({
                 sortField: 'userName',
                 sortDirection: 'ASC'
+            })
+            .expect(httpStatus.BAD_REQUEST);
+    });
+
+    it('should return teams filtered by teamName', async () => {
+        const res = await supertest(app)
+            .get('/teams')
+            .query({
+                filterField: 'teamName',
+                filterValue: 'Milan'
+            })
+            .expect(httpStatus.OK);
+
+        const filteredTeams = await models.team.findAll({
+            where: {
+                teamName: 'Milan'
+            },
+            order: [
+                ['id', 'ASC']
+            ],
+            raw: true
+        });
+
+        const teamsIdFilteredByParams = res.body.teams.map((team) => {
+            return { id: team.id }
+        });
+
+        const teamsIdFilteredManually = filteredTeams.map((team) => {
+            return { id: team.id }
+        });
+
+        assert.deepStrictEqual(teamsIdFilteredByParams, teamsIdFilteredManually,
+            'should filter teams by teamName');
+    });
+
+    it('should return validation error for invalid filterField', async () => {
+        await supertest(app)
+            .get('/teams')
+            .query({
+                filterField: 'userName',
+                filterValue: 'Juventus'
             })
             .expect(httpStatus.BAD_REQUEST);
     });
@@ -78,7 +119,7 @@ describe('POST /teams', () => {
         assert.deepStrictEqual(newTestTeam.team.teamName, teamById.teamName, 'Should create correct team');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid teamName', async () => {
         const incorrectTeam = {
             team: {
                 teamName: 'C'
@@ -111,7 +152,7 @@ describe('PUT /teams/:id', () => {
         assert.deepStrictEqual(testTeamAfter.teamName, newTeamName, 'Should update teamName');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid id', async () => {
         await supertest(app)
             .put('/teams/15.5')
             .send({ team: {} })
@@ -138,7 +179,7 @@ describe('DELETE /teams/', () => {
         assert.deepStrictEqual(teamById, null, 'Should delete correct team');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid id', async () => {
         await supertest(app)
             .delete('/teams/-12')
             .expect(httpStatus.BAD_REQUEST);

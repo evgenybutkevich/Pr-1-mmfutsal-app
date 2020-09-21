@@ -39,12 +39,53 @@ describe('GET /players', () => {
         assert.deepStrictEqual(playersIdSortedByParams, playersIdSortedManually, 'Should sort players by ascending id');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid sortField', async () => {
         await supertest(app)
             .get('/players')
             .query({
                 sortField: 'userName',
                 sortDirection: 'ASC'
+            })
+            .expect(httpStatus.BAD_REQUEST);
+    });
+
+    it('should return players filtered by firstName', async () => {
+        const res = await supertest(app)
+            .get('/players')
+            .query({
+                filterField: 'firstName',
+                filterValue: 'Evgeny'
+            })
+            .expect(httpStatus.OK);
+
+        const filteredPlayers = await models.player.findAll({
+            where: {
+                firstName: 'Evgeny'
+            },
+            order: [
+                ['id', 'ASC']
+            ],
+            raw: true
+        });
+
+        const playersIdFilteredByParams = res.body.players.map((player) => {
+            return { id: player.id }
+        });
+
+        const playersIdFilteredManually = filteredPlayers.map((player) => {
+            return { id: player.id }
+        });
+
+        assert.deepStrictEqual(playersIdFilteredByParams, playersIdFilteredManually,
+            'should filter players by firstName');
+    });
+
+    it('should return validation error for invalid filterField', async () => {
+        await supertest(app)
+            .get('/players')
+            .query({
+                filterField: 'teamName',
+                filterValue: 'Anton'
             })
             .expect(httpStatus.BAD_REQUEST);
     });
@@ -79,7 +120,7 @@ describe('POST /players', () => {
         assert.deepStrictEqual(newTestPlayer.player.firstName, playerById.firstName, 'Should create correct player');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid firstName', async () => {
         const incorrectPlayer = {
             player: {
                 firstName: 'S',
@@ -113,7 +154,7 @@ describe('PUT /players/:id', () => {
         assert.deepStrictEqual(testPlayerAfter.firstName, newPlayerName, 'Should update firstName');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid id', async () => {
         await supertest(app)
             .put('/players/15.5')
             .send({ player: {} })
@@ -141,7 +182,7 @@ describe('DELETE /players/:id', () => {
         assert.deepStrictEqual(playerById, null, 'Should delete correct player');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid id', async () => {
         await supertest(app)
             .delete('/players/-12')
             .expect(httpStatus.BAD_REQUEST);

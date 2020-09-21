@@ -1,11 +1,18 @@
 const models = require('../../sequelize/models');
 
-function getAll(sortField, sortDirection) {
-    if (!sortField || !sortDirection) {
-        return models.user.findAll();
+function getAll({ filterField, filterValue, sortField = 'id', sortDirection = 'ASC' }) {
+    if (!filterField || !filterValue) {
+        return models.user.findAll({
+            order: [
+                [sortField, sortDirection]
+            ]
+        });
     }
 
     return models.user.findAll({
+        where: {
+            [filterField]: filterValue
+        },
         order: [
             [sortField, sortDirection]
         ]

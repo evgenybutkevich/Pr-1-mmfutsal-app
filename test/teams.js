@@ -6,13 +6,13 @@ const app = require('../index');
 const models = require('../sequelize/models');
 
 describe('GET /teams', () => {
-    it('should return all teams', async () => {
+    it('should return all existing teams', async () => {
         await supertest(app)
             .get('/teams')
             .expect(httpStatus.OK);
     });
 
-    it('should return all teams sorted by id', async () => {
+    it('should return all existing teams sorted by id', async () => {
         const res = await supertest(app)
             .get('/teams')
             .query({
@@ -36,10 +36,11 @@ describe('GET /teams', () => {
             return { id: team.id }
         });
 
-        assert.deepStrictEqual(teamsIdSortedByParams, teamsIdSortedManually, 'Should sort teams by ascending id');
+        assert.deepStrictEqual(teamsIdSortedByParams, teamsIdSortedManually,
+            'should sort all existing teams by ascending id');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error (sortField does not exist)', async () => {
         await supertest(app)
             .get('/teams')
             .query({
@@ -51,7 +52,7 @@ describe('GET /teams', () => {
 });
 
 describe('GET /teams/:id', () => {
-    it('should return team', async () => {
+    it('should return single team', async () => {
         const testTeam = await models.team.findOne();
 
         await supertest(app)
@@ -61,7 +62,7 @@ describe('GET /teams/:id', () => {
 });
 
 describe('POST /teams', () => {
-    it('should create team', async () => {
+    it('should create single team', async () => {
         const newTestTeam = {
             team: {
                 teamName: 'Lokomotiv'
@@ -75,10 +76,10 @@ describe('POST /teams', () => {
 
         const teamById = await models.team.findByPk(res.body.team.id);
 
-        assert.deepStrictEqual(newTestTeam.team.teamName, teamById.teamName, 'Should create correct team');
+        assert.deepStrictEqual(newTestTeam.team.teamName, teamById.teamName, 'should create correct team');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error (teamName is too short)', async () => {
         const incorrectTeam = {
             team: {
                 teamName: 'C'
@@ -93,7 +94,7 @@ describe('POST /teams', () => {
 });
 
 describe('PUT /teams/:id', () => {
-    it('should update team', async () => {
+    it('should update single team', async () => {
         const newTeamName = 'newTeamName';
 
         const testTeamBefore = await models.team.findOne();
@@ -108,10 +109,10 @@ describe('PUT /teams/:id', () => {
 
         const testTeamAfter = await models.team.findByPk(testTeamBefore.id);
 
-        assert.deepStrictEqual(testTeamAfter.teamName, newTeamName, 'Should update teamName');
+        assert.deepStrictEqual(testTeamAfter.teamName, newTeamName, 'should update teamName');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error (id is not integer)', async () => {
         await supertest(app)
             .put('/teams/15.5')
             .send({ team: {} })
@@ -120,7 +121,7 @@ describe('PUT /teams/:id', () => {
 });
 
 describe('DELETE /teams/', () => {
-    it('should delete team', async () => {
+    it('should delete single team', async () => {
         const newTestTeam = {
             team: {
                 teamName: 'newTeamName'
@@ -135,10 +136,10 @@ describe('DELETE /teams/', () => {
 
         const teamById = await models.team.findByPk(newTeam.id);
 
-        assert.deepStrictEqual(teamById, null, 'Should delete correct team');
+        assert.deepStrictEqual(teamById, null, 'should delete correct team');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error (id is not positive)', async () => {
         await supertest(app)
             .delete('/teams/-12')
             .expect(httpStatus.BAD_REQUEST);

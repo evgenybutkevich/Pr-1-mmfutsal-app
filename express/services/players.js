@@ -1,6 +1,6 @@
 const models = require('../../sequelize/models');
 
-function getAll(sortField = 'id', sortDirection = 'ASC') {
+function getAll({sortField = 'id', sortDirection = 'ASC'}) {
     return models.player.findAll({
         order: [
             [sortField, sortDirection]

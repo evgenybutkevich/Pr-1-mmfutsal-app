@@ -1,10 +1,6 @@
 const models = require('../../sequelize/models');
 
-function getAll(sortField, sortDirection) {
-    if (!sortField || !sortDirection) {
-        return models.team.findAll();
-    }
-
+function getAll(sortField = 'id', sortDirection = 'ASC') {
     return models.team.findAll({
         order: [
             [sortField, sortDirection]

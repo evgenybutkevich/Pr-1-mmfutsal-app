@@ -40,7 +40,7 @@ describe('GET /users', () => {
             'should sort all existing users by ascending id');
     });
 
-    it('should return validation error (sortField does not exist)', async () => {
+    it('should return validation error for invalid sortField', async () => {
         await supertest(app)
             .get('/users')
             .query({
@@ -84,7 +84,7 @@ describe('POST /users', () => {
         assert.deepStrictEqual(newTestUser.user.firstName, userById.firstName, 'should create correct user');
     });
 
-    it('should return validation error (userName is too short)', async () => {
+    it('should return validation error for invalid userName', async () => {
         const incorrectUser = {
             user: {
                 userName: 'us',
@@ -125,7 +125,7 @@ describe('PUT /users/:id', () => {
         assert.deepStrictEqual(testUserAfter.email, newEmail, 'should update email');
     });
 
-    it('should return validation error (id is not integer)', async () => {
+    it('should return validation error for invalid id', async () => {
         await supertest(app)
             .put('/users/15.5')
             .send({ user: {} })
@@ -157,7 +157,7 @@ describe('DELETE /users/:id', () => {
         assert.deepStrictEqual(userById, null, 'should delete correct user');
     });
 
-    it('should return validation error (id is not positive)', async () => {
+    it('should return validation error for invalid id', async () => {
         await supertest(app)
             .delete('/users/-12')
             .expect(httpStatus.BAD_REQUEST);

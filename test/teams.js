@@ -40,7 +40,7 @@ describe('GET /teams', () => {
             'should sort all existing teams by ascending id');
     });
 
-    it('should return validation error (sortField does not exist)', async () => {
+    it('should return validation error for invalid sortField', async () => {
         await supertest(app)
             .get('/teams')
             .query({
@@ -79,7 +79,7 @@ describe('POST /teams', () => {
         assert.deepStrictEqual(newTestTeam.team.teamName, teamById.teamName, 'should create correct team');
     });
 
-    it('should return validation error (teamName is too short)', async () => {
+    it('should return validation error for invalid teamName', async () => {
         const incorrectTeam = {
             team: {
                 teamName: 'C'
@@ -112,7 +112,7 @@ describe('PUT /teams/:id', () => {
         assert.deepStrictEqual(testTeamAfter.teamName, newTeamName, 'should update teamName');
     });
 
-    it('should return validation error (id is not integer)', async () => {
+    it('should return validation error for invalid id', async () => {
         await supertest(app)
             .put('/teams/15.5')
             .send({ team: {} })
@@ -139,7 +139,7 @@ describe('DELETE /teams/', () => {
         assert.deepStrictEqual(teamById, null, 'should delete correct team');
     });
 
-    it('should return validation error (id is not positive)', async () => {
+    it('should return validation error for invalid id', async () => {
         await supertest(app)
             .delete('/teams/-12')
             .expect(httpStatus.BAD_REQUEST);

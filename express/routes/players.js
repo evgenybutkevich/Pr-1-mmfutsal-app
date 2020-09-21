@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', validate(validations.get), async (req, res) => {
 	const { sortField, sortDirection } = req.query;
 
-	const players = await playersService.getAll({sortField, sortDirection});
+	const players = await playersService.getAll({ sortField, sortDirection });
 
 	return res.send({ players })
 });

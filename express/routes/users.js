@@ -8,10 +8,13 @@ const validations = require('../validations/users')
 const router = express.Router();
 
 router.get('/', validate(validations.get), async (req, res) => {
-	const users = await usersService.getAll(
-		req.query.sortField,
-		req.query.sortDirection
-	);
+	const { filterField, filterValue, sortField, sortDirection } = req.query;
+
+	const users = await usersService.getAll({ filterField, filterValue, sortField, sortDirection });
+
+	if (users.length === 0) {
+		return res.sendStatus(httpStatus.NOT_FOUND);
+	}
 
 	return res.send({ users });
 });

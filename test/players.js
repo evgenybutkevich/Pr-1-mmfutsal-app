@@ -89,6 +89,45 @@ describe('GET /players', () => {
             })
             .expect(httpStatus.BAD_REQUEST);
     });
+
+    it('should return 5 players on the 2nd page', async () => {
+        const res = await supertest(app)
+            .get('/players')
+            .query({
+                pageNumber: 2,
+                instancesNumber: 5
+            })
+            .expect(httpStatus.OK);
+
+        const selectedPlayers = await models.player.findAll({
+            order: [
+                ['id', 'ASC']
+            ],
+            offset: 5,
+            limit: 5,
+            raw: true
+        });
+
+        const playersIdSelectedByParams = res.body.players.map((player) => {
+            return { id: player.id }
+        });
+
+        const playersIdSelectedManually = selectedPlayers.map((player) => {
+            return { id: player.id }
+        });
+
+        assert.deepStrictEqual(playersIdSelectedByParams, playersIdSelectedManually,
+            'should select players on the correct page');
+    });
+
+    it('should return validation error for invalid pageNumber', async () => {
+        await supertest(app)
+            .get('/players')
+            .query({
+                pageNumber: 1.5
+            })
+            .expect(httpStatus.BAD_REQUEST);
+    });
 });
 
 describe('GET /players/:id', () => {

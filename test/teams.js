@@ -158,6 +158,45 @@ describe('PUT /teams/:id', () => {
             .send({ team: {} })
             .expect(httpStatus.BAD_REQUEST);
     });
+
+    it('should return 5 teams on the 1st page', async () => {
+        const res = await supertest(app)
+            .get('/teams')
+            .query({
+                pageNumber: 1,
+                instancesNumber: 5
+            })
+            .expect(httpStatus.OK);
+
+        const selectedTeams = await models.team.findAll({
+            order: [
+                ['id', 'ASC']
+            ],
+            offset: 0,
+            limit: 5,
+            raw: true
+        });
+
+        const teamsIdSelectedByParams = res.body.teams.map((team) => {
+            return { id: team.id }
+        });
+
+        const teamsIdSelectedManually = selectedTeams.map((team) => {
+            return { id: team.id }
+        });
+
+        assert.deepStrictEqual(teamsIdSelectedByParams, teamsIdSelectedManually,
+            'should select teams on the correct page');
+    });
+
+    it('should return validation error for invalid pageNumber', async () => {
+        await supertest(app)
+            .get('/teams')
+            .query({
+                pageNumber: -1
+            })
+            .expect(httpStatus.BAD_REQUEST);
+    });
 });
 
 describe('DELETE /teams/', () => {

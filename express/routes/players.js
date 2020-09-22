@@ -8,9 +8,13 @@ const validations = require('../validations/players')
 const router = express.Router();
 
 router.get('/', validate(validations.get), async (req, res) => {
-	const { filterField, filterValue, sortField, sortDirection } = req.query;
+	const {
+		filterField, filterValue, pageNumber, instancesNumber, sortField, sortDirection
+	} = req.query;
 
-	const players = await playersService.getAll({ filterField, filterValue, sortField, sortDirection });
+	const players = await playersService.getAll({
+		filterField, filterValue, pageNumber, instancesNumber, sortField, sortDirection
+	});
 
 	if (players.length === 0) {
 		return res.sendStatus(httpStatus.NOT_FOUND);

@@ -8,8 +8,19 @@ const validations = {
 			id: Joi.number()
 				.integer()
 				.positive()
-				.required()
-		})
+		}),
+		query: Joi.object({
+			sortField: Joi.string()
+				.valid(
+					'id',
+					'teamName'
+				),
+			sortDirection: Joi.string()
+				.valid(
+					'ASC',
+					'DESC'
+				)
+		}),
 	},
 	post: {
 		body: Joi.object({

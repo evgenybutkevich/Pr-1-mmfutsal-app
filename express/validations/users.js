@@ -8,8 +8,21 @@ const validations = {
 			id: Joi.number()
 				.integer()
 				.positive()
-				.required()
-		})
+		}),
+		query: Joi.object({
+			sortField: Joi.string()
+				.valid(
+					'id',
+					'userName',
+					'firstName',
+					'lastName'
+				),
+			sortDirection: Joi.string()
+				.valid(
+					'ASC',
+					'DESC'
+				)
+		}),
 	},
 	post: {
 		body: Joi.object({

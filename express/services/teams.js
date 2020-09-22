@@ -1,7 +1,11 @@
 const models = require('../../sequelize/models');
 
-function getAll() {
-    return models.team.findAll();
+function getAll({ sortField = 'id', sortDirection = 'ASC' }) {
+    return models.team.findAll({
+        order: [
+            [sortField, sortDirection]
+        ]
+    });
 }
 
 function getById(id) {

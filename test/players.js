@@ -6,15 +6,53 @@ const app = require('../index');
 const models = require('../sequelize/models');
 
 describe('GET /players', () => {
-    it('should return all players', async () => {
+    it('should return all existing players', async () => {
         await supertest(app)
             .get('/players')
             .expect(httpStatus.OK);
     });
+
+    it('should return all existing players sorted by id', async () => {
+        const res = await supertest(app)
+            .get('/players')
+            .query({
+                sortField: 'id',
+                sortDirection: 'ASC'
+            })
+            .expect(httpStatus.OK);
+
+        const sortedPlayers = await models.player.findAll({
+            order: [
+                ['id', 'ASC']
+            ],
+            raw: true
+        });
+
+        const playersIdSortedByParams = res.body.players.map((player) => {
+            return { id: player.id }
+        });
+
+        const playersIdSortedManually = sortedPlayers.map((player) => {
+            return { id: player.id }
+        });
+
+        assert.deepStrictEqual(playersIdSortedByParams, playersIdSortedManually,
+            'should sort all existing players by ascending id');
+    });
+
+    it('should return validation error for invalid sortField', async () => {
+        await supertest(app)
+            .get('/players')
+            .query({
+                sortField: 'userName',
+                sortDirection: 'ASC'
+            })
+            .expect(httpStatus.BAD_REQUEST);
+    });
 });
 
 describe('GET /players/:id', () => {
-    it('should return player', async () => {
+    it('should return single player', async () => {
         const testPlayer = await models.player.findOne();
 
         await supertest(app)
@@ -24,7 +62,7 @@ describe('GET /players/:id', () => {
 });
 
 describe('POST /players', () => {
-    it('should create player', async () => {
+    it('should create single player', async () => {
         const newTestPlayer = {
             player: {
                 firstName: 'Slava',
@@ -39,10 +77,10 @@ describe('POST /players', () => {
 
         const playerById = await models.player.findByPk(res.body.player.id);
 
-        assert.deepStrictEqual(newTestPlayer.player.firstName, playerById.firstName, 'Should create correct player');
+        assert.deepStrictEqual(newTestPlayer.player.firstName, playerById.firstName, 'should create correct player');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid firstName', async () => {
         const incorrectPlayer = {
             player: {
                 firstName: 'S',
@@ -58,7 +96,7 @@ describe('POST /players', () => {
 });
 
 describe('PUT /players/:id', () => {
-    it('should update player', async () => {
+    it('should update single player', async () => {
         const newPlayerName = 'newPlayerName';
 
         const testPlayerBefore = await models.player.findOne();
@@ -73,10 +111,10 @@ describe('PUT /players/:id', () => {
 
         const testPlayerAfter = await models.player.findByPk(testPlayerBefore.id);
 
-        assert.deepStrictEqual(testPlayerAfter.firstName, newPlayerName, 'Should update firstName');
+        assert.deepStrictEqual(testPlayerAfter.firstName, newPlayerName, 'should update firstName');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid id', async () => {
         await supertest(app)
             .put('/players/15.5')
             .send({ player: {} })
@@ -85,7 +123,7 @@ describe('PUT /players/:id', () => {
 });
 
 describe('DELETE /players/:id', () => {
-    it('should delete player', async () => {
+    it('should delete single player', async () => {
         const newTestPlayer = {
             player: {
                 firstName: 'Evgeny',
@@ -101,10 +139,10 @@ describe('DELETE /players/:id', () => {
 
         const playerById = await models.player.findByPk(newPlayer.id);
 
-        assert.deepStrictEqual(playerById, null, 'Should delete correct player');
+        assert.deepStrictEqual(playerById, null, 'should delete correct player');
     });
 
-    it('should return validation error', async () => {
+    it('should return validation error for invalid id', async () => {
         await supertest(app)
             .delete('/players/-12')
             .expect(httpStatus.BAD_REQUEST);

@@ -17,6 +17,15 @@ const validations = {
 				),
 			filterValue: Joi.string()
 				.regex(common.filterValueRegex),
+			pageNumber: Joi.number()
+				.integer()
+				.positive(),
+			instancesNumber: Joi.number()
+				.valid(
+					5,
+					7,
+					10
+				),
 			sortField: Joi.string()
 				.valid(
 					'id',

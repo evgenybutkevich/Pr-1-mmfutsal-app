@@ -1,28 +1,18 @@
 const models = require('../../sequelize/models');
 
 function getAll({
-    filterField, filterValue, pageNumber = 1, instancesNumber = 5, sortField = 'id', sortDirection = 'ASC'
+    filterField, filterValue, sortField = 'id', sortDirection = 'ASC', pageNumber = 1, instancesNumber = 5
 }) {
-    if (!filterField || !filterValue) {
-        return models.user.findAll({
-            order: [
-                [sortField, sortDirection]
-            ],
-            offset: instancesNumber * (pageNumber - 1),
-            limit: instancesNumber
-        });
-    }
-
-    return models.user.findAll({
-        where: {
-            [filterField]: filterValue
-        },
+    const findAllOptions = {
+        ...filterField && filterValue && { where: { [filterField]: filterValue } },
         order: [
             [sortField, sortDirection]
         ],
         offset: instancesNumber * (pageNumber - 1),
         limit: instancesNumber
-    });
+    }
+
+    return models.user.findAll(findAllOptions);
 }
 
 function getById(id) {

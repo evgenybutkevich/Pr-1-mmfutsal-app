@@ -6,13 +6,13 @@ const app = require('../index');
 const models = require('../sequelize/models');
 
 describe('GET /users', () => {
-    it('should return all users', async () => {
+    it('should return all existing users', async () => {
         await supertest(app)
             .get('/users')
             .expect(httpStatus.OK);
     });
 
-    it('should return all users sorted by id', async () => {
+    it('should return all existing users sorted by id', async () => {
         const res = await supertest(app)
             .get('/users')
             .query({
@@ -36,7 +36,8 @@ describe('GET /users', () => {
             return { id: user.id }
         });
 
-        assert.deepStrictEqual(usersIdSortedByParams, usersIdSortedManually, 'Should sort users by ascending id');
+        assert.deepStrictEqual(usersIdSortedByParams, usersIdSortedManually,
+            'should sort all existing users by ascending id');
     });
 
     it('should return validation error for invalid sortField', async () => {
@@ -92,7 +93,7 @@ describe('GET /users', () => {
 });
 
 describe('GET /users/:id', () => {
-    it('should return user', async () => {
+    it('should return single user', async () => {
         const testUser = await models.user.findOne();
 
         await supertest(app)
@@ -102,7 +103,7 @@ describe('GET /users/:id', () => {
 });
 
 describe('POST /users', () => {
-    it('should create user', async () => {
+    it('should create single user', async () => {
         const newTestUser = {
             user: {
                 userName: 'userName_6',
@@ -121,7 +122,7 @@ describe('POST /users', () => {
 
         const userById = await models.user.findByPk(res.body.user.id);
 
-        assert.deepStrictEqual(newTestUser.user.firstName, userById.firstName, 'Should create correct user');
+        assert.deepStrictEqual(newTestUser.user.firstName, userById.firstName, 'should create correct user');
     });
 
     it('should return validation error for invalid userName', async () => {
@@ -144,7 +145,7 @@ describe('POST /users', () => {
 });
 
 describe('PUT /users/:id', () => {
-    it('should update user', async () => {
+    it('should update single user', async () => {
         const newUserName = 'newUserName';
         const newEmail = 'newUserName@example.com';
 
@@ -161,8 +162,8 @@ describe('PUT /users/:id', () => {
 
         const testUserAfter = await models.user.findByPk(testUserBefore.id);
 
-        assert.deepStrictEqual(testUserAfter.userName, newUserName, 'Should update userName');
-        assert.deepStrictEqual(testUserAfter.email, newEmail, 'Should update email');
+        assert.deepStrictEqual(testUserAfter.userName, newUserName, 'should update userName');
+        assert.deepStrictEqual(testUserAfter.email, newEmail, 'should update email');
     });
 
     it('should return validation error for invalid id', async () => {
@@ -174,7 +175,7 @@ describe('PUT /users/:id', () => {
 });
 
 describe('DELETE /users/:id', () => {
-    it('should delete user', async () => {
+    it('should delete single user', async () => {
         const newTestUser = {
             user: {
                 userName: 'userName_7',
@@ -194,7 +195,7 @@ describe('DELETE /users/:id', () => {
 
         const userById = await models.user.findByPk(newUser.id);
 
-        assert.deepStrictEqual(userById, null, 'Should delete correct user');
+        assert.deepStrictEqual(userById, null, 'should delete correct user');
     });
 
     it('should return validation error for invalid id', async () => {

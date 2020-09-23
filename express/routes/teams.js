@@ -3,20 +3,21 @@ const httpStatus = require('http-status');
 const { validate } = require('express-validation');
 
 const teamsService = require('../services/teams');
-const validations = require('../validations/teams')
+const validations = require('../validations/teams');
+const validationUtils = require('../../utils/express-validation/validationUtils');
 
 const router = express.Router();
 
-router.get('/', validate(validations.get), async (req, res) => {
+router.get('/', validationUtils.getValidation(validations.get), async (req, res) => {
 	const {
-		filterField, filterValue, pageNumber, instancesNumber, sortField, sortDirection
+		filterField, filterValue, sortField, sortDirection, page, limit
 	} = req.query;
 
 	const teams = await teamsService.getAll({
-		filterField, filterValue, pageNumber, instancesNumber, sortField, sortDirection
+		filterField, filterValue, sortField, sortDirection, page, limit
 	});
 
-	return res.send({ teams });
+	return res.send({ teams: teams.rows });
 });
 
 router.get('/:id', validate(validations.get), async (req, res) => {

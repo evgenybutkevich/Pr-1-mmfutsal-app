@@ -10,6 +10,7 @@ const validations = {
 				.positive()
 		}),
 		query: Joi.object({
+			test: Joi.boolean().default(false),
 			filterField: Joi.string()
 				.valid(
 					'id',
@@ -17,25 +18,26 @@ const validations = {
 				),
 			filterValue: Joi.string()
 				.regex(common.filterValueRegex),
-			pageNumber: Joi.number()
+			page: Joi.number()
 				.integer()
-				.positive(),
-			instancesNumber: Joi.number()
-				.valid(
-					5,
-					7,
-					10
-				),
+				.positive()
+				.default(1),
+			limit: Joi.number()
+				.min(common.pagination.minLimit)
+				.max(common.pagination.maxLimit)
+				.default(5),
 			sortField: Joi.string()
 				.valid(
 					'id',
 					'teamName'
-				),
+				)
+				.default('id'),
 			sortDirection: Joi.string()
 				.valid(
 					'ASC',
 					'DESC'
 				)
+				.default('ASC')
 		}),
 	},
 	post: {

@@ -16,10 +16,6 @@ router.get('/', validate(validations.get), async (req, res) => {
 		filterField, filterValue, pageNumber, instancesNumber, sortField, sortDirection
 	});
 
-	if (teams.length === 0) {
-		return res.sendStatus(httpStatus.NOT_FOUND);
-	}
-
 	return res.send({ teams });
 });
 

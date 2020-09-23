@@ -12,10 +12,6 @@ router.get('/', validate(validations.get), async (req, res) => {
 
 	const teams = await teamsService.getAll({ filterField, filterValue, sortField, sortDirection });
 
-	if (teams.length === 0) {
-		return res.sendStatus(httpStatus.NOT_FOUND);
-	}
-
 	return res.send({ teams });
 });
 

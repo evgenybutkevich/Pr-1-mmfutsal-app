@@ -12,10 +12,6 @@ router.get('/', validate(validations.get), async (req, res) => {
 
 	const players = await playersService.getAll({ filterField, filterValue, sortField, sortDirection });
 
-	if (players.length === 0) {
-		return res.sendStatus(httpStatus.NOT_FOUND);
-	}
-
 	return res.send({ players })
 });
 

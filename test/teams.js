@@ -49,6 +49,47 @@ describe('GET /teams', () => {
             })
             .expect(httpStatus.BAD_REQUEST);
     });
+
+    it('should return teams filtered by teamName', async () => {
+        const res = await supertest(app)
+            .get('/teams')
+            .query({
+                filterField: 'teamName',
+                filterValue: 'Milan'
+            })
+            .expect(httpStatus.OK);
+
+        const filteredTeams = await models.team.findAll({
+            where: {
+                teamName: 'Milan'
+            },
+            order: [
+                ['id', 'ASC']
+            ],
+            raw: true
+        });
+
+        const teamsIdFilteredByParams = res.body.teams.map((team) => {
+            return { id: team.id }
+        });
+
+        const teamsIdFilteredManually = filteredTeams.map((team) => {
+            return { id: team.id }
+        });
+
+        assert.deepStrictEqual(teamsIdFilteredByParams, teamsIdFilteredManually,
+            'should filter teams by teamName');
+    });
+
+    it('should return validation error for invalid filterField', async () => {
+        await supertest(app)
+            .get('/teams')
+            .query({
+                filterField: 'userName',
+                filterValue: 'Juventus'
+            })
+            .expect(httpStatus.BAD_REQUEST);
+    });
 });
 
 describe('GET /teams/:id', () => {

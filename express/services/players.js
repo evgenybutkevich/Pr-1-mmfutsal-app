@@ -1,11 +1,14 @@
 const models = require('../../sequelize/models');
 
-function getAll({ sortField = 'id', sortDirection = 'ASC' }) {
-    return models.player.findAll({
+function getAll({ filterField, filterValue, sortField = 'id', sortDirection = 'ASC' }) {
+    const findAllOptions = {
+        ...filterField && filterValue && { where: { [filterField]: filterValue } },
         order: [
             [sortField, sortDirection]
         ]
-    });
+    }
+
+    return models.player.findAll(findAllOptions);
 }
 
 function getById(id) {

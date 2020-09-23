@@ -49,6 +49,47 @@ describe('GET /users', () => {
             })
             .expect(httpStatus.BAD_REQUEST);
     });
+
+    it('should return users filtered by firstName', async () => {
+        const res = await supertest(app)
+            .get('/users')
+            .query({
+                filterField: 'firstName',
+                filterValue: 'Evgeny'
+            })
+            .expect(httpStatus.OK);
+
+        const filteredUsers = await models.user.findAll({
+            where: {
+                firstName: 'Evgeny'
+            },
+            order: [
+                ['id', 'ASC']
+            ],
+            raw: true
+        });
+
+        const usersIdFilteredByParams = res.body.users.map((user) => {
+            return { id: user.id }
+        });
+
+        const usersIdFilteredManually = filteredUsers.map((user) => {
+            return { id: user.id }
+        });
+
+        assert.deepStrictEqual(usersIdFilteredByParams, usersIdFilteredManually,
+            'should filter users by firstName');
+    });
+
+    it.only('should return validation error for invalid filterField', async () => {
+        await supertest(app)
+            .get('/users')
+            .query({
+                filterField: 'teamName',
+                filterValue: 'Anton'
+            })
+            .expect(httpStatus.BAD_REQUEST);
+    });
 });
 
 describe('GET /users/:id', () => {

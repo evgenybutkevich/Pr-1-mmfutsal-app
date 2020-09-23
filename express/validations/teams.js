@@ -10,6 +10,13 @@ const validations = {
 				.positive()
 		}),
 		query: Joi.object({
+			filterField: Joi.string()
+				.valid(
+					'id',
+					'teamName'
+				),
+			filterValue: Joi.string()
+				.regex(common.filterValueRegex),
 			sortField: Joi.string()
 				.valid(
 					'id',

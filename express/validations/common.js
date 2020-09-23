@@ -14,6 +14,7 @@ module.exports = {
     lastNameMinLength: 2,
     lastNameMaxLength: 20,
 
+    filterValueRegex: /^[_0-9a-zA-Z]+$/,
     telephoneRegex: /^\+375 (?:25|29|33|44) (?=.*\d).{3}-(?=.*\d).{2}-(?=.*\d).{2}$/,
     passwordRegex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,15}$/,
 }

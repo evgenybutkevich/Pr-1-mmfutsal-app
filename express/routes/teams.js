@@ -1,26 +1,26 @@
 const express = require('express');
 const httpStatus = require('http-status');
-const { validate } = require('express-validation');
 
 const teamsService = require('../services/teams');
-const validations = require('../validations/teams');
-const validationUtils = require('../../utils/express-validation/validationUtils');
+const teamsValidation = require('../validations/teams');
+const validationHelper = require('../../utils/validationHelper');
 
 const router = express.Router();
 
-router.get('/', validationUtils.getValidation(validations.get), async (req, res) => {
-	const {
-		filterField, filterValue, sortField, sortDirection, page, limit
-	} = req.query;
+router.get('/', validationHelper(teamsValidation.get), async (req, res) => {
+	const params = req.query;
 
-	const teams = await teamsService.getAll({
-		filterField, filterValue, sortField, sortDirection, page, limit
+	const { count, rows } = await teamsService.getAll(params);
+
+	return res.send({
+		teams: rows,
+		meta: {
+			count
+		}
 	});
-
-	return res.send({ teams: teams.rows });
 });
 
-router.get('/:id', validate(validations.get), async (req, res) => {
+router.get('/:id', validationHelper(teamsValidation.get), async (req, res) => {
 	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {
@@ -30,13 +30,13 @@ router.get('/:id', validate(validations.get), async (req, res) => {
 	return res.send({ team });
 });
 
-router.post('/', validate(validations.post), async (req, res) => {
+router.post('/', validationHelper(teamsValidation.post), async (req, res) => {
 	const team = await teamsService.create(req.body.team);
 
 	return res.send({ team });
 });
 
-router.put('/:id', validate(validations.put), async (req, res) => {
+router.put('/:id', validationHelper(teamsValidation.put), async (req, res) => {
 	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {
@@ -48,7 +48,7 @@ router.put('/:id', validate(validations.put), async (req, res) => {
 	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-router.delete('/:id', validate(validations.delete), async (req, res) => {
+router.delete('/:id', validationHelper(teamsValidation.delete), async (req, res) => {
 	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {

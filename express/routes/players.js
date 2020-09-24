@@ -1,26 +1,26 @@
 const express = require('express');
 const httpStatus = require('http-status');
-const { validate } = require('express-validation');
 
 const playersService = require('../services/players');
-const validations = require('../validations/players');
-const validationUtils = require('../../utils/express-validation/validationUtils');
+const playersValidation = require('../validations/players');
+const validationHepler = require('../../utils/validationHelper');
 
 const router = express.Router();
 
-router.get('/', validationUtils.getValidation(validations.get), async (req, res) => {
-	const {
-		filterField, filterValue, sortField, sortDirection, page, limit
-	} = req.query;
+router.get('/', validationHepler(playersValidation.get), async (req, res) => {
+	const params = req.query;
 
-	const players = await playersService.getAll({
-		filterField, filterValue, sortField, sortDirection, page, limit
-	});
+	const { count, rows } = await playersService.getAll(params);
 
-	return res.send({ players: players.rows })
+	return res.send({
+		players: rows,
+		meta: {
+			count
+		}
+	})
 });
 
-router.get('/:id', validate(validations.get), async (req, res) => {
+router.get('/:id', validationHepler(playersValidation.get), async (req, res) => {
 	const player = await playersService.getById(req.params.id);
 
 	if (!player) {
@@ -30,13 +30,13 @@ router.get('/:id', validate(validations.get), async (req, res) => {
 	return res.send({ player });
 });
 
-router.post('/', validate(validations.post), async (req, res) => {
+router.post('/', validationHepler(playersValidation.post), async (req, res) => {
 	const player = await playersService.create(req.body.player);
 
 	return res.send({ player });
 });
 
-router.put('/:id', validate(validations.put), async (req, res) => {
+router.put('/:id', validationHepler(playersValidation.put), async (req, res) => {
 	const player = await playersService.getById(req.params.id);
 
 	if (!player) {
@@ -48,7 +48,7 @@ router.put('/:id', validate(validations.put), async (req, res) => {
 	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-router.delete('/:id', validate(validations.delete), async (req, res) => {
+router.delete('/:id', validationHepler(playersValidation.delete), async (req, res) => {
 	const player = await playersService.getById(req.params.id);
 
 	if (!player) {

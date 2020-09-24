@@ -95,8 +95,8 @@ describe('GET /users', () => {
         const res = await supertest(app)
             .get('/users')
             .query({
-                pageNumber: 1,
-                instancesNumber: 5
+                page: 1,
+                limit: 5
             })
             .expect(httpStatus.OK);
 
@@ -121,11 +121,11 @@ describe('GET /users', () => {
             'should select users on the correct page');
     });
 
-    it('should return validation error for invalid pageNumber', async () => {
+    it('should return validation error for invalid page', async () => {
         await supertest(app)
             .get('/users')
             .query({
-                pageNumber: -1
+                page: -1
             })
             .expect(httpStatus.BAD_REQUEST);
     });

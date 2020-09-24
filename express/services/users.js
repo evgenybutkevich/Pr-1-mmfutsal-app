@@ -1,10 +1,10 @@
 const models = require('../../sequelize/models');
 const serviceUtils = require('../../utils/sequelize/serviceUtils');
 
-function getAll({ filterField, filterValue, sortField, sortDirection, page, limit }) {
+function getAll(params) {
 
     return models.user.findAndCountAll(
-        serviceUtils.getSearchOptions(filterField, filterValue, sortField, sortDirection, page, limit));
+        serviceUtils.getSearchOptions(params));
 }
 
 function getById(id) {

@@ -1,4 +1,4 @@
-function getSearchOptions(filterField, filterValue, sortField, sortDirection, page = 1, limit = 5) {
+function getSearchOptions({ filterField, filterValue, sortField, sortDirection, page, limit }) {
     return {
         ...filterField && filterValue && { where: { [filterField]: filterValue } },
         order: [

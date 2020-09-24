@@ -81,12 +81,51 @@ describe('GET /users', () => {
             'should filter users by firstName');
     });
 
-    it.only('should return validation error for invalid filterField', async () => {
+    it('should return validation error for invalid filterField', async () => {
         await supertest(app)
             .get('/users')
             .query({
                 filterField: 'teamName',
                 filterValue: 'Anton'
+            })
+            .expect(httpStatus.BAD_REQUEST);
+    });
+
+    it('should return 5 users on the 1st page', async () => {
+        const res = await supertest(app)
+            .get('/users')
+            .query({
+                page: 1,
+                limit: 5
+            })
+            .expect(httpStatus.OK);
+
+        const selectedUsers = await models.user.findAll({
+            order: [
+                ['id', 'ASC']
+            ],
+            offset: 0,
+            limit: 5,
+            raw: true
+        });
+
+        const usersIdSelectedByParams = res.body.users.map((user) => {
+            return { id: user.id }
+        });
+
+        const usersIdSelectedManually = selectedUsers.map((user) => {
+            return { id: user.id }
+        });
+
+        assert.deepStrictEqual(usersIdSelectedByParams, usersIdSelectedManually,
+            'should select users on the correct page');
+    });
+
+    it('should return validation error for invalid page', async () => {
+        await supertest(app)
+            .get('/users')
+            .query({
+                page: -1
             })
             .expect(httpStatus.BAD_REQUEST);
     });

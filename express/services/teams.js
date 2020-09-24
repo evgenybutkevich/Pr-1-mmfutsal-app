@@ -1,14 +1,8 @@
 const models = require('../../sequelize/models');
+const { getSearchOptions } = require('../../utils/sequelize');
 
-function getAll({ filterField, filterValue, sortField = 'id', sortDirection = 'ASC' }) {
-    const findAllOptions = {
-        ...filterField && filterValue && { where: { [filterField]: filterValue } },
-        order: [
-            [sortField, sortDirection]
-        ]
-    }
-
-    return models.team.findAll(findAllOptions);
+function getAll(params) {
+    return models.team.findAndCountAll(getSearchOptions(params));
 }
 
 function getById(id) {

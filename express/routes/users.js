@@ -1,21 +1,26 @@
 const express = require('express');
 const httpStatus = require('http-status');
-const { validate } = require('express-validation');
 
 const usersService = require('../services/users');
-const validations = require('../validations/users')
+const usersValidation = require('../validations/users');
+const validate = require('../../utils/validationHelper');
 
 const router = express.Router();
 
-router.get('/', validate(validations.get), async (req, res) => {
-	const { filterField, filterValue, sortField, sortDirection } = req.query;
+router.get('/', validate(usersValidation.get), async (req, res) => {
+	const params = req.query;
 
-	const users = await usersService.getAll({ filterField, filterValue, sortField, sortDirection });
+	const { count, rows } = await usersService.getAll(params);
 
-	return res.send({ users });
+	return res.send({
+		users: rows,
+		meta: {
+			count
+		}
+	});
 });
 
-router.get('/:id', validate(validations.get), async (req, res) => {
+router.get('/:id', validate(usersValidation.get), async (req, res) => {
 	const user = await usersService.getById(req.params.id);
 
 	if (!user) {
@@ -25,13 +30,13 @@ router.get('/:id', validate(validations.get), async (req, res) => {
 	return res.send({ user });
 });
 
-router.post('/', validate(validations.post), async (req, res) => {
+router.post('/', validate(usersValidation.post), async (req, res) => {
 	const user = await usersService.create(req.body.user);
 
 	return res.send({ user });
 });
 
-router.put('/:id', validate(validations.put), async (req, res) => {
+router.put('/:id', validate(usersValidation.put), async (req, res) => {
 	const user = await usersService.getById(req.params.id);
 
 	if (!user) {
@@ -43,7 +48,7 @@ router.put('/:id', validate(validations.put), async (req, res) => {
 	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-router.delete('/:id', validate(validations.delete), async (req, res) => {
+router.delete('/:id', validate(usersValidation.delete), async (req, res) => {
 	const user = await usersService.getById(req.params.id);
 
 	if (!user) {

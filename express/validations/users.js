@@ -19,18 +19,28 @@ const validations = {
 				),
 			filterValue: Joi.string()
 				.regex(common.filterValueRegex),
+			page: Joi.number()
+				.integer()
+				.positive()
+				.default(1),
+			limit: Joi.number()
+				.min(common.pagination.minLimit)
+				.max(common.pagination.maxLimit)
+				.default(5),
 			sortField: Joi.string()
 				.valid(
 					'id',
 					'userName',
 					'firstName',
 					'lastName'
-				),
+				)
+				.default('id'),
 			sortDirection: Joi.string()
 				.valid(
 					'ASC',
 					'DESC'
 				)
+				.default('ASC')
 		}),
 	},
 	post: {

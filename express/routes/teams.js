@@ -1,21 +1,26 @@
 const express = require('express');
 const httpStatus = require('http-status');
-const { validate } = require('express-validation');
 
 const teamsService = require('../services/teams');
-const validations = require('../validations/teams')
+const teamsValidation = require('../validations/teams');
+const validate = require('../../utils/validationHelper');
 
 const router = express.Router();
 
-router.get('/', validate(validations.get), async (req, res) => {
-	const { filterField, filterValue, sortField, sortDirection } = req.query;
+router.get('/', validate(teamsValidation.get), async (req, res) => {
+	const params = req.query;
 
-	const teams = await teamsService.getAll({ filterField, filterValue, sortField, sortDirection });
+	const { count, rows } = await teamsService.getAll(params);
 
-	return res.send({ teams });
+	return res.send({
+		teams: rows,
+		meta: {
+			count
+		}
+	});
 });
 
-router.get('/:id', validate(validations.get), async (req, res) => {
+router.get('/:id', validate(teamsValidation.get), async (req, res) => {
 	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {
@@ -25,13 +30,13 @@ router.get('/:id', validate(validations.get), async (req, res) => {
 	return res.send({ team });
 });
 
-router.post('/', validate(validations.post), async (req, res) => {
+router.post('/', validate(teamsValidation.post), async (req, res) => {
 	const team = await teamsService.create(req.body.team);
 
 	return res.send({ team });
 });
 
-router.put('/:id', validate(validations.put), async (req, res) => {
+router.put('/:id', validate(teamsValidation.put), async (req, res) => {
 	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {
@@ -43,7 +48,7 @@ router.put('/:id', validate(validations.put), async (req, res) => {
 	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-router.delete('/:id', validate(validations.delete), async (req, res) => {
+router.delete('/:id', validate(teamsValidation.delete), async (req, res) => {
 	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {

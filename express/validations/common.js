@@ -1,4 +1,9 @@
 module.exports = {
+    pagination: {
+        minLimit: 5,
+        maxLimit: 50,
+    },
+
     seasonNameMinLength: 2,
     seasonNameMaxLength: 20,
 

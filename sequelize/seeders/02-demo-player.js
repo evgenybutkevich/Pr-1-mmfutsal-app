@@ -19,6 +19,86 @@ module.exports = {
         {
             firstName: 'Arthur',
             lastName: 'Shket'
+        },
+        {
+            firstName: 'Evgeny',
+            lastName: 'Butkevich'
+        },
+        {
+            firstName: 'Anton',
+            lastName: 'Fomenok'
+        },
+        {
+            firstName: 'Mikhail',
+            lastName: 'Sudnikovich'
+        },
+        {
+            firstName: 'Ilya',
+            lastName: 'Faley'
+        },
+        {
+            firstName: 'Arthur',
+            lastName: 'Shket'
+        },
+        {
+            firstName: 'Evgeny',
+            lastName: 'Butkevich'
+        },
+        {
+            firstName: 'Anton',
+            lastName: 'Fomenok'
+        },
+        {
+            firstName: 'Mikhail',
+            lastName: 'Sudnikovich'
+        },
+        {
+            firstName: 'Ilya',
+            lastName: 'Faley'
+        },
+        {
+            firstName: 'Arthur',
+            lastName: 'Shket'
+        },
+        {
+            firstName: 'Evgeny',
+            lastName: 'Butkevich'
+        },
+        {
+            firstName: 'Anton',
+            lastName: 'Fomenok'
+        },
+        {
+            firstName: 'Mikhail',
+            lastName: 'Sudnikovich'
+        },
+        {
+            firstName: 'Ilya',
+            lastName: 'Faley'
+        },
+        {
+            firstName: 'Arthur',
+            lastName: 'Shket'
+        },
+        {
+            firstName: 'Evgeny',
+            lastName: 'Butkevich'
+        },
+        {
+            firstName: 'Anton',
+            lastName: 'Fomenok'
+        },
+        {
+            firstName: 'Mikhail',
+            lastName: 'Sudnikovich'
+        },
+        {
+            firstName: 'Ilya',
+            lastName: 'Faley'
+        },
+        {
+            firstName: 'Arthur',
+            lastName: 'Shket'
         }]);
     },
     down: async function (queryInterface, Sequelize) {

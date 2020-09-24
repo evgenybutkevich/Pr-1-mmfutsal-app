@@ -1,5 +1,5 @@
 const { validate } = require('express-validation');
 
-module.exports = function getValidation(schema) {
+module.exports = function (schema) {
     return validate(schema, { context: true });
 }

@@ -1,10 +1,8 @@
 const models = require('../../sequelize/models');
-const serviceUtils = require('../../utils/sequelize/serviceUtils');
+const { getSearchOptions } = require('../../utils/sequelizeUtils');
 
 function getAll(params) {
-
-    return models.team.findAndCountAll(
-        serviceUtils.getSearchOptions(params));
+    return models.team.findAndCountAll(getSearchOptions(params));
 }
 
 function getById(id) {

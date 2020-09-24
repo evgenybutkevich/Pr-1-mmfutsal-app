@@ -3,11 +3,11 @@ const httpStatus = require('http-status');
 
 const teamsService = require('../services/teams');
 const teamsValidation = require('../validations/teams');
-const validationHelper = require('../../utils/validationHelper');
+const validate = require('../../utils/validationHelper');
 
 const router = express.Router();
 
-router.get('/', validationHelper(teamsValidation.get), async (req, res) => {
+router.get('/', validate(teamsValidation.get), async (req, res) => {
 	const params = req.query;
 
 	const { count, rows } = await teamsService.getAll(params);
@@ -20,7 +20,7 @@ router.get('/', validationHelper(teamsValidation.get), async (req, res) => {
 	});
 });
 
-router.get('/:id', validationHelper(teamsValidation.get), async (req, res) => {
+router.get('/:id', validate(teamsValidation.get), async (req, res) => {
 	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {
@@ -30,13 +30,13 @@ router.get('/:id', validationHelper(teamsValidation.get), async (req, res) => {
 	return res.send({ team });
 });
 
-router.post('/', validationHelper(teamsValidation.post), async (req, res) => {
+router.post('/', validate(teamsValidation.post), async (req, res) => {
 	const team = await teamsService.create(req.body.team);
 
 	return res.send({ team });
 });
 
-router.put('/:id', validationHelper(teamsValidation.put), async (req, res) => {
+router.put('/:id', validate(teamsValidation.put), async (req, res) => {
 	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {
@@ -48,7 +48,7 @@ router.put('/:id', validationHelper(teamsValidation.put), async (req, res) => {
 	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-router.delete('/:id', validationHelper(teamsValidation.delete), async (req, res) => {
+router.delete('/:id', validate(teamsValidation.delete), async (req, res) => {
 	const team = await teamsService.getById(req.params.id);
 
 	if (!team) {

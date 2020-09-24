@@ -3,11 +3,11 @@ const httpStatus = require('http-status');
 
 const usersService = require('../services/users');
 const usersValidation = require('../validations/users');
-const validationHelper = require('../../utils/validationHelper');
+const validate = require('../../utils/validationHelper');
 
 const router = express.Router();
 
-router.get('/', validationHelper(usersValidation.get), async (req, res) => {
+router.get('/', validate(usersValidation.get), async (req, res) => {
 	const params = req.query;
 
 	const { count, rows } = await usersService.getAll(params);
@@ -20,7 +20,7 @@ router.get('/', validationHelper(usersValidation.get), async (req, res) => {
 	});
 });
 
-router.get('/:id', validationHelper(usersValidation.get), async (req, res) => {
+router.get('/:id', validate(usersValidation.get), async (req, res) => {
 	const user = await usersService.getById(req.params.id);
 
 	if (!user) {
@@ -30,13 +30,13 @@ router.get('/:id', validationHelper(usersValidation.get), async (req, res) => {
 	return res.send({ user });
 });
 
-router.post('/', validationHelper(usersValidation.post), async (req, res) => {
+router.post('/', validate(usersValidation.post), async (req, res) => {
 	const user = await usersService.create(req.body.user);
 
 	return res.send({ user });
 });
 
-router.put('/:id', validationHelper(usersValidation.put), async (req, res) => {
+router.put('/:id', validate(usersValidation.put), async (req, res) => {
 	const user = await usersService.getById(req.params.id);
 
 	if (!user) {
@@ -48,7 +48,7 @@ router.put('/:id', validationHelper(usersValidation.put), async (req, res) => {
 	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-router.delete('/:id', validationHelper(usersValidation.delete), async (req, res) => {
+router.delete('/:id', validate(usersValidation.delete), async (req, res) => {
 	const user = await usersService.getById(req.params.id);
 
 	if (!user) {

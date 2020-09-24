@@ -3,11 +3,11 @@ const httpStatus = require('http-status');
 
 const playersService = require('../services/players');
 const playersValidation = require('../validations/players');
-const validationHepler = require('../../utils/validationHelper');
+const validate = require('../../utils/validationHelper');
 
 const router = express.Router();
 
-router.get('/', validationHepler(playersValidation.get), async (req, res) => {
+router.get('/', validate(playersValidation.get), async (req, res) => {
 	const params = req.query;
 
 	const { count, rows } = await playersService.getAll(params);
@@ -20,7 +20,7 @@ router.get('/', validationHepler(playersValidation.get), async (req, res) => {
 	})
 });
 
-router.get('/:id', validationHepler(playersValidation.get), async (req, res) => {
+router.get('/:id', validate(playersValidation.get), async (req, res) => {
 	const player = await playersService.getById(req.params.id);
 
 	if (!player) {
@@ -30,13 +30,13 @@ router.get('/:id', validationHepler(playersValidation.get), async (req, res) => 
 	return res.send({ player });
 });
 
-router.post('/', validationHepler(playersValidation.post), async (req, res) => {
+router.post('/', validate(playersValidation.post), async (req, res) => {
 	const player = await playersService.create(req.body.player);
 
 	return res.send({ player });
 });
 
-router.put('/:id', validationHepler(playersValidation.put), async (req, res) => {
+router.put('/:id', validate(playersValidation.put), async (req, res) => {
 	const player = await playersService.getById(req.params.id);
 
 	if (!player) {
@@ -48,7 +48,7 @@ router.put('/:id', validationHepler(playersValidation.put), async (req, res) => 
 	return res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-router.delete('/:id', validationHepler(playersValidation.delete), async (req, res) => {
+router.delete('/:id', validate(playersValidation.delete), async (req, res) => {
 	const player = await playersService.getById(req.params.id);
 
 	if (!player) {

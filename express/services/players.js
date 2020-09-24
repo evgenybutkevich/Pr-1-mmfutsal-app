@@ -1,5 +1,5 @@
 const models = require('../../sequelize/models');
-const { getSearchOptions } = require('../../utils/sequelizeUtils');
+const { getSearchOptions } = require('../../utils/sequelize');
 
 function getAll(params) {
     return models.player.findAndCountAll(getSearchOptions(params));

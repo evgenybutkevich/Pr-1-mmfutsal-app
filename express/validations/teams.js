@@ -10,7 +10,6 @@ const validations = {
 				.positive()
 		}),
 		query: Joi.object({
-			test: Joi.boolean().default(false),
 			filterField: Joi.string()
 				.valid(
 					'id',

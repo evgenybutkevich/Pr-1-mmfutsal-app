@@ -8,13 +8,6 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     Result.init({
-        playerTeamSeasonId: {
-            references: {
-                model: "playerTeamSeason",
-                key: "id"
-            },
-            type: DataTypes.INTEGER,
-        },
         goals: {
             allowNull: false,
             defaultValue: 0,

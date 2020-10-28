@@ -25,6 +25,7 @@ describe('GET /players', () => {
             order: [
                 ['id', 'ASC']
             ],
+            limit: 5,
             raw: true
         });
 
@@ -138,6 +139,23 @@ describe('GET /players/:id', () => {
         await supertest(app)
             .get(`/players/${testPlayer.id}`)
             .expect(httpStatus.OK);
+    });
+
+    it('should return player\'s junction table records', async () => {
+        const testPlayer = await models.player.findOne();
+
+        const res = await supertest(app)
+            .get(`/players/${testPlayer.id}`)
+            .expect(httpStatus.OK);
+
+        const recordsFromResponse = res.body.playerTeamSeason;
+        const recordsFromService = await models.playerTeamSeason.findAll({
+            where: {
+                playerId: testPlayer.id
+            }
+        });
+        assert.deepStrictEqual(recordsFromResponse.length, recordsFromService.length,
+            'should return correct number of records');
     });
 });
 

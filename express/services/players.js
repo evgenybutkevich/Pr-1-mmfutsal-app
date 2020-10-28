@@ -6,7 +6,13 @@ function getAll(params) {
 }
 
 function getById(id) {
-    return models.player.findByPk(id);
+    return models.player.findByPk(id, {
+        include: [{
+            model: models.season
+        }, {
+            model: models.team
+        }]
+    });
 }
 
 function create(player) {

@@ -19,13 +19,13 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(errorHandler);
-
 app.use(router);
 
 app.get('/', (req, res) => {
     res.sendStatus(httpStatus.OK);
 });
+
+app.use(errorHandler);
 
 app.listen(process.env.EXPRESS_PORT, () => {
     console.log(`Express server listening on port ${process.env.EXPRESS_PORT}...`);

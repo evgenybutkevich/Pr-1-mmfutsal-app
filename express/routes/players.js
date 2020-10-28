@@ -2,6 +2,7 @@ const express = require('express');
 const httpStatus = require('http-status');
 
 const playersService = require('../services/players');
+const playerTeamSeasonsService = require('../services/playerTeamSeasons');
 const playersValidation = require('../validations/players');
 const validate = require('../../utils/validationHelper');
 
@@ -22,12 +23,13 @@ router.get('/', validate(playersValidation.get), async (req, res) => {
 
 router.get('/:id', validate(playersValidation.get), async (req, res) => {
 	const player = await playersService.getById(req.params.id);
+	const playerTeamSeason = await playerTeamSeasonsService.getAll(req.params.id);
 
 	if (!player) {
 		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
 
-	return res.send({ player });
+	return res.send({ player, playerTeamSeason });
 });
 
 router.post('/', validate(playersValidation.post), async (req, res) => {

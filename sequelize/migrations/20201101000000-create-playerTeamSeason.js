@@ -28,6 +28,13 @@ module.exports = {
                 },
                 type: DataTypes.INTEGER,
             },
+            resultId: {
+                references: {
+                    model: "results",
+                    key: "id"
+                },
+                type: DataTypes.INTEGER,
+            },
             createdAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),

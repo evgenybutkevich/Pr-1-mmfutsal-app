@@ -7,11 +7,29 @@ function getAll(params) {
 
 function getById(id) {
     return models.player.findByPk(id, {
-        include: [{
-            model: models.season
-        }, {
-            model: models.team
-        }]
+        include: {
+            model: models.season,
+            through: {
+                attributes: []
+            },
+            include: [{
+                model: models.team,
+                through: {
+                    attributes: ['seasonId', 'teamId'],
+                    where: {
+                        playerId: id
+                    }
+                }
+            }, {
+                model: models.result,
+                through: {
+                    attributes: ['seasonId', 'teamId'],
+                    where: {
+                        playerId: id
+                    }
+                }
+            }]
+        }
     });
 }
 
@@ -22,7 +40,7 @@ function create(player) {
 function update(player, id) {
     return models.player.update(player, {
         where: {
-            id: id
+            id
         }
     });
 }
@@ -30,7 +48,7 @@ function update(player, id) {
 function remove(id) {
     return models.player.destroy({
         where: {
-            id: id
+            id
         }
     });
 }

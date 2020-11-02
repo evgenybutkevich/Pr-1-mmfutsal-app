@@ -141,20 +141,22 @@ describe('GET /players/:id', () => {
             .expect(httpStatus.OK);
     });
 
-    it('should return player\'s junction table records', async () => {
+    it('should return player\'s included records', async () => {
         const testPlayer = await models.player.findOne();
 
         const res = await supertest(app)
             .get(`/players/${testPlayer.id}`)
             .expect(httpStatus.OK);
 
-        const recordsFromResponse = res.body.playerTeamSeason;
-        const recordsFromService = await models.playerTeamSeason.findAll({
-            where: {
-                playerId: testPlayer.id
-            }
+        const seasonsInResponse = res.body.player.seasons;
+        const seasonsInService = await models.player.findByPk(testPlayer.id, {
+            include: models.season
         });
-        assert.deepStrictEqual(recordsFromResponse.length, recordsFromService.length,
+
+        console.log(seasonsInResponse.length);
+        console.log(seasonsInService.seasons.length);
+
+        assert.strictEqual(seasonsInResponse.length, seasonsInService.seasons.length,
             'should return correct number of records');
     });
 });

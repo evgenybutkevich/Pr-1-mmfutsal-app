@@ -1,19 +1,19 @@
 module.exports = {
     up: async function (queryInterface, Sequelize) {
         return queryInterface.bulkInsert('teams', [{
-            teamName: 'Barcelona'
+            team_name: 'Barcelona'
         },
         {
-            teamName: 'Real Madrid'
+            team_name: 'Real Madrid'
         },
         {
-            teamName: 'Juventus'
+            team_name: 'Juventus'
         },
         {
-            teamName: 'Milan'
+            team_name: 'Milan'
         },
         {
-            teamName: 'Dinamo-Brest'
+            team_name: 'Dinamo-Brest'
         }]);
     },
     down: async function (queryInterface, Sequelize) {

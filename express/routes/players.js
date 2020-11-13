@@ -22,11 +22,12 @@ router.get('/', validate(playersValidation.get), async (req, res) => {
 
 router.get('/:id', validate(playersValidation.get), async (req, res) => {
 	const player = await playersService.getById(req.params.id);
-	const mergedPlayer = await playersService.mergedTeamsResults(player.toJSON());
 
 	if (!player) {
 		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
+
+	const mergedPlayer = await playersService.mergedTeamsResults(player.toJSON());
 
 	return res.send({ player: mergedPlayer });
 });

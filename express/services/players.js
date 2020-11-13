@@ -34,9 +34,9 @@ function getById(id) {
 }
 
 async function mergeTeamsResults(player) {
-    const { seasons, ...mergedPlayer } = player;
+    const { seasons, ...processedPlayer } = player;
 
-    mergedPlayer.seasons = seasons.map((season) => {
+    processedPlayer.seasons = seasons.map((season) => {
         const { teams, results, ...seasonRest } = season;
 
         seasonRest.teams = teams.map((team) => {
@@ -54,7 +54,7 @@ async function mergeTeamsResults(player) {
         return seasonRest;
     });
 
-    return mergedPlayer;
+    return processedPlayer;
 }
 
 function create(player) {

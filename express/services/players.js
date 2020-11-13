@@ -15,7 +15,7 @@ function getById(id) {
             include: [{
                 model: models.team,
                 through: {
-                    attributes: ['seasonId', 'teamId'],
+                    attributes: ['id'],
                     where: {
                         playerId: id
                     }
@@ -23,14 +23,38 @@ function getById(id) {
             }, {
                 model: models.result,
                 through: {
-                    attributes: ['seasonId', 'teamId'],
+                    attributes: ['id'],
                     where: {
                         playerId: id
                     }
                 }
             }]
-        }
+        },
     });
+}
+
+async function mergedTeamsResults(player) {
+    const { seasons, ...mergedPlayer } = player;
+
+    mergedPlayer.seasons = seasons.map((season) => {
+        const { teams, results, ...seasonRest } = season;
+
+        seasonRest.teams = teams.map((team) => {
+            const { playerTeamSeason: teamJunctionObject, ...teamRest } = team;
+
+            const { id, playerTeamSeason: resultJunctionObject, ...resultRest } = results.find((result) => {
+                return result.playerTeamSeason.id === teamJunctionObject.id;
+            });
+
+            teamRest.result = resultRest;
+
+            return teamRest;
+        });
+
+        return seasonRest;
+    });
+
+    return mergedPlayer;
 }
 
 function create(player) {
@@ -56,6 +80,7 @@ function remove(id) {
 module.exports = {
     getAll,
     getById,
+    mergedTeamsResults,
     create,
     update,
     remove,

@@ -161,7 +161,7 @@ describe('GET /players/:id', () => {
             'should return correct number of records');
     });
 
-    it.only('should return restructured object received by getById() method', async () => {
+    it('should return restructured object received by getById() method', async () => {
         const actualObject = {
             id: 1,
             firstName: 'Evgeny',

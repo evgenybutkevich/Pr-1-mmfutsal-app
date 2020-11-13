@@ -63,7 +63,7 @@ describe('POST /news', () => {
 
 describe('PUT /news/:id', () => {
     it('should update news', async () => {
-        const newHeading = 'newNewsHeading';
+        const newHeading = 'newHeading';
 
         const testNewsBefore = await models.news.findOne();
         testNewsBefore.heading = newHeading;
@@ -82,7 +82,7 @@ describe('PUT /news/:id', () => {
 
     it('should return validation error', async () => {
         await supertest(app)
-            .put('/seasons/7.5')
+            .put('/news/7.5')
             .send({ news: {} })
             .expect(httpStatus.BAD_REQUEST);
     });
@@ -105,7 +105,7 @@ describe('DELETE /news/', () => {
             .delete(`/news/${newNews.id}`)
             .expect(httpStatus.NO_CONTENT);
 
-        const newsById = await models.news.findByPk(newSeason.id);
+        const newsById = await models.news.findByPk(newNews.id);
 
         assert.deepStrictEqual(newsById, null, 'Should delete correct news');
     });

@@ -33,7 +33,7 @@ function getById(id) {
     });
 }
 
-async function mergedTeamsResults(player) {
+async function mergeTeamsResults(player) {
     const { seasons, ...mergedPlayer } = player;
 
     mergedPlayer.seasons = seasons.map((season) => {
@@ -80,7 +80,7 @@ function remove(id) {
 module.exports = {
     getAll,
     getById,
-    mergedTeamsResults,
+    mergeTeamsResults,
     create,
     update,
     remove,

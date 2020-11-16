@@ -1,6 +1,5 @@
 const router = require('express').Router();
 
-router.use('/news', require('./news'));
 router.use('/players', require('./players'));
 router.use('/seasons', require('./seasons'));
 router.use('/teams', require('./teams'));

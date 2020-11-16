@@ -4,12 +4,6 @@ module.exports = {
         maxLimit: 50,
     },
 
-    headingMinLength: 10,
-    headingMaxLength: 255,
-
-    contentMinLength: 10,
-    contentMaxLength: 32768,
-
     seasonNameMinLength: 2,
     seasonNameMaxLength: 20,
 

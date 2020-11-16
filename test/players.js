@@ -139,6 +139,25 @@ describe('GET /players/:id', () => {
             .get(`/players/${testPlayer.id}`)
             .expect(httpStatus.OK);
     });
+
+    it('should return player\'s included records', async () => {
+        const testPlayer = await models.player.findOne();
+
+        const res = await supertest(app)
+            .get(`/players/${testPlayer.id}`)
+            .expect(httpStatus.OK);
+
+        const seasonsInResponse = res.body.player.seasons;
+        const seasonsInService = await models.player.findByPk(testPlayer.id, {
+            include: models.season
+        });
+
+        console.log(seasonsInResponse.length);
+        console.log(seasonsInService.seasons.length);
+
+        assert.strictEqual(seasonsInResponse.length, seasonsInService.seasons.length,
+            'should return correct number of records');
+    });
 });
 
 describe('POST /players', () => {

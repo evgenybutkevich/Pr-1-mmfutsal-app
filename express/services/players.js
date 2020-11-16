@@ -6,7 +6,31 @@ function getAll(params) {
 }
 
 function getById(id) {
-    return models.player.findByPk(id);
+    return models.player.findByPk(id, {
+        include: {
+            model: models.season,
+            through: {
+                attributes: []
+            },
+            include: [{
+                model: models.team,
+                through: {
+                    attributes: ['seasonId', 'teamId'],
+                    where: {
+                        playerId: id
+                    }
+                }
+            }, {
+                model: models.result,
+                through: {
+                    attributes: ['seasonId', 'teamId'],
+                    where: {
+                        playerId: id
+                    }
+                }
+            }]
+        }
+    });
 }
 
 function create(player) {

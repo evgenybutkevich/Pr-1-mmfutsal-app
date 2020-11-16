@@ -27,9 +27,7 @@ router.get('/:id', validate(playersValidation.get), async (req, res) => {
 		return res.sendStatus(httpStatus.NOT_FOUND);
 	}
 
-	const processedPlayer = await playersService.mergeTeamsResults(player.toJSON());
-
-	return res.send({ player: processedPlayer });
+	return res.send({ player });
 });
 
 router.post('/', validate(playersValidation.post), async (req, res) => {

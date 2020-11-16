@@ -7,13 +7,6 @@ module.exports = {
                 primaryKey: true,
                 type: DataTypes.INTEGER
             },
-            playerTeamSeasonId: {
-                references: {
-                    model: "playerTeamSeasons",
-                    key: "id"
-                },
-                type: DataTypes.INTEGER,
-            },
             goals: {
                 allowNull: false,
                 defaultValue: 0,

@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             Player.belongsToMany(models.season, { through: 'playerTeamSeason' });
             Player.belongsToMany(models.team, { through: 'playerTeamSeason' });
-            Player.belongsToMany(models.result, { through: 'playerTeamSeason' });
         }
     };
 

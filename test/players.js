@@ -25,7 +25,6 @@ describe('GET /players', () => {
             order: [
                 ['id', 'ASC']
             ],
-            limit: 5,
             raw: true
         });
 

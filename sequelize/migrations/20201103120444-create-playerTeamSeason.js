@@ -31,6 +31,8 @@ module.exports = {
                 },
                 type: DataTypes.INTEGER,
             },
+<<<<<<< HEAD:sequelize/migrations/20200909000000-create-playerTeamSeason.js
+=======
             resultId: {
                 field: 'result_id',
                 references: {
@@ -39,6 +41,7 @@ module.exports = {
                 },
                 type: DataTypes.INTEGER,
             },
+>>>>>>> afc9381... Sequelize: rename migrations, add new for news and sections:sequelize/migrations/20201103120444-create-playerTeamSeason.js
             createdAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),

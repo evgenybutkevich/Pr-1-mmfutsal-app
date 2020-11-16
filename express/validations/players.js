@@ -12,6 +12,7 @@ const validations = {
 		query: Joi.object({
 			filterField: Joi.string()
 				.valid(
+					'id',
 					'firstName',
 					'lastName'
 				),

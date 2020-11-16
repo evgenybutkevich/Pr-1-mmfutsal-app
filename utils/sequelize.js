@@ -1,20 +1,11 @@
-const { Op } = require("sequelize");
-
 function getSearchOptions({ filterField, filterValue, sortField, sortDirection, page, limit }) {
     return {
-        ...filterField && filterValue && {
-            where: {
-                [filterField]: {
-                    [Op.substring]: filterValue
-                }
-            }
-        },
+        ...filterField && filterValue && { where: { [filterField]: filterValue } },
         order: [
-            [sortField, sortDirection],
-            ['id', sortDirection]
+            [sortField, sortDirection]
         ],
         offset: limit * (page - 1),
-        limit: limit,
+        limit: limit
     };
 }
 

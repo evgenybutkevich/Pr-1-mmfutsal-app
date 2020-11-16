@@ -4,6 +4,7 @@ const supertest = require('supertest');
 
 const app = require('../index');
 const models = require('../sequelize/models');
+const playersService = require('../express/services/players');
 
 describe('GET /players', () => {
     it('should return all existing players', async () => {
@@ -158,6 +159,83 @@ describe('GET /players/:id', () => {
 
         assert.strictEqual(seasonsInResponse.length, seasonsInService.seasons.length,
             'should return correct number of records');
+    });
+
+    it('should return restructured object received by getById() method', async () => {
+        const actualObject = {
+            id: 1,
+            firstName: 'Evgeny',
+            lastName: 'Butkevich',
+            seasons: [{
+                id: 1,
+                seasonName: 'First Season',
+                teams: [{
+                    id: 1,
+                    teamName: 'Dinamo',
+                    playerTeamSeason: {
+                        id: 1
+                    }
+                }],
+                results: [{
+                    id: 1,
+                    gamesPlayed: 10,
+                    goals: 10,
+                    playerTeamSeason: {
+                        id: 1
+                    }
+                }]
+            }, {
+                id: 2,
+                seasonName: 'Second Season',
+                teams: [{
+                    id: 1,
+                    teamName: 'Dinamo',
+                    playerTeamSeason: {
+                        id: 2
+                    }
+                }],
+                results: [{
+                    id: 1,
+                    gamesPlayed: 10,
+                    goals: 10,
+                    playerTeamSeason: {
+                        id: 2
+                    }
+                }]
+            }]
+        };
+
+        const expectedObject = {
+            id: 1,
+            firstName: 'Evgeny',
+            lastName: 'Butkevich',
+            seasons: [{
+                id: 1,
+                seasonName: 'First Season',
+                teams: [{
+                    id: 1,
+                    teamName: 'Dinamo',
+                    result: {
+                        gamesPlayed: 10,
+                        goals: 10
+                    }
+                }]
+            }, {
+                id: 2,
+                seasonName: 'Second Season',
+                teams: [{
+                    id: 1,
+                    teamName: 'Dinamo',
+                    result: {
+                        gamesPlayed: 10,
+                        goals: 10,
+                    }
+                }]
+            }]
+        };
+
+        assert.deepStrictEqual(playersService.mergedTeamsResults(actualObject), expectedObject,
+            'should return equal objects');
     });
 });
 

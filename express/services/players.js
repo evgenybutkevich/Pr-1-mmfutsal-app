@@ -15,7 +15,7 @@ function getById(id) {
             include: [{
                 model: models.team,
                 through: {
-                    attributes: ['id'],
+                    attributes: ['seasonId', 'teamId'],
                     where: {
                         playerId: id
                     }
@@ -23,7 +23,7 @@ function getById(id) {
             }, {
                 model: models.result,
                 through: {
-                    attributes: ['id'],
+                    attributes: ['seasonId', 'teamId'],
                     where: {
                         playerId: id
                     }
@@ -64,7 +64,7 @@ function create(player) {
 function update(player, id) {
     return models.player.update(player, {
         where: {
-            id
+            id: id
         }
     });
 }
@@ -72,7 +72,7 @@ function update(player, id) {
 function remove(id) {
     return models.player.destroy({
         where: {
-            id
+            id: id
         }
     });
 }

@@ -4,7 +4,6 @@ const supertest = require('supertest');
 
 const app = require('../index');
 const models = require('../sequelize/models');
-const playersService = require('../express/services/players');
 
 describe('GET /players', () => {
     it('should return all existing players', async () => {
@@ -26,7 +25,6 @@ describe('GET /players', () => {
             order: [
                 ['id', 'ASC']
             ],
-            limit: 5,
             raw: true
         });
 

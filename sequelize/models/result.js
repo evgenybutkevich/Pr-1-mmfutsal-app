@@ -3,13 +3,18 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Result extends Model {
         static associate(models) {
-            Result.belongsToMany(models.player, { through: 'playerTeamSeason' });
-            Result.belongsToMany(models.season, { through: 'playerTeamSeason' });
-            Result.belongsToMany(models.team, { through: 'playerTeamSeason' });
+            Result.belongsTo(models.playerTeamSeason);
         }
     };
 
     Result.init({
+        playerTeamSeasonId: {
+            references: {
+                model: "playerTeamSeason",
+                key: "id"
+            },
+            type: DataTypes.INTEGER,
+        },
         goals: {
             allowNull: false,
             defaultValue: 0,

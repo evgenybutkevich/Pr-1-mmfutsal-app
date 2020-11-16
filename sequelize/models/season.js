@@ -11,19 +11,24 @@ module.exports = (sequelize, DataTypes) => {
     Season.init({
         seasonName: {
             allowNull: false,
-            field: 'season_name',
             type: DataTypes.STRING
+        },
+        startYear: {
+            allowNull: false,
+            type: DataTypes.DATEONLY
+        },
+        endYear: {
+            allowNull: false,
+            type: DataTypes.DATEONLY
         },
         createdAt: {
             allowNull: false,
             defaultValue: DataTypes.NOW,
-            field: 'created_at',
             type: DataTypes.DATE
         },
         updatedAt: {
             allowNull: false,
             defaultValue: DataTypes.NOW,
-            field: 'updated_at',
             type: DataTypes.DATE
         }
     }, {

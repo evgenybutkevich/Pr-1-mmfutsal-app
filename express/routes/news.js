@@ -21,25 +21,25 @@ router.get('/', validate(newsValidation.get), async (req, res) => {
 });
 
 router.get('/:id', validate(newsValidation.get), async (req, res) => {
-    const news = await newsService.getById(req.params.id);
+    const article = await newsService.getById(req.params.id);
 
-    if (!news) {
+    if (!article) {
         return res.sendStatus(httpStatus.NOT_FOUND);
     }
 
-    return res.send({ news });
+    return res.send({ news: article });
 });
 
 router.post('/', validate(newsValidation.post), async (req, res) => {
-    const news = await newsService.create(req.body.news);
+    const article = await newsService.create(req.body.news);
 
-    return res.send({ news });
+    return res.send({ news: article });
 });
 
 router.put('/:id', validate(newsValidation.put), async (req, res) => {
-    const news = await newsService.getById(req.params.id);
+    const article = await newsService.getById(req.params.id);
 
-    if (!news) {
+    if (!article) {
         return res.sendStatus(httpStatus.NOT_FOUND);
     }
 
@@ -49,9 +49,9 @@ router.put('/:id', validate(newsValidation.put), async (req, res) => {
 });
 
 router.delete('/:id', validate(newsValidation.delete), async (req, res) => {
-    const news = await newsService.getById(req.params.id);
+    const article = await newsService.getById(req.params.id);
 
-    if (!news) {
+    if (!article) {
         return res.sendStatus(httpStatus.NOT_FOUND);
     }
 

@@ -23,12 +23,12 @@ function getById(id) {
     return models.news.findByPk(id);
 }
 
-function create(news) {
-    return models.news.create(news);
+function create(article) {
+    return models.news.create(article);
 }
 
-function update(news, id) {
-    return models.news.update(news, {
+function update(article, id) {
+    return models.news.update(article, {
         where: {
             id
         }

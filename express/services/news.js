@@ -12,7 +12,6 @@ function getAll(params) {
             {
                 model: models.user
             }
-
         ],
         order: [
             ['id', 'ASC']

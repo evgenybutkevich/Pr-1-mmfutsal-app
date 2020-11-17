@@ -1,5 +1,4 @@
 const models = require('../../sequelize/models');
-const { Op } = require("sequelize");
 const { getSearchOptions } = require('../../utils/sequelize');
 
 function getAll(params) {

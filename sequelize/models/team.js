@@ -12,16 +12,19 @@ module.exports = (sequelize, DataTypes) => {
     Team.init({
         teamName: {
             allowNull: false,
+            field: 'team_name',
             type: DataTypes.STRING
         },
         createdAt: {
             allowNull: false,
             defaultValue: DataTypes.NOW,
+            field: 'created_at',
             type: DataTypes.DATE
         },
         updatedAt: {
             allowNull: false,
             defaultValue: DataTypes.NOW,
+            field: 'updated_at',
             type: DataTypes.DATE
         }
     }, {

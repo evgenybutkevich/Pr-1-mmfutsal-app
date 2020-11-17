@@ -2,8 +2,8 @@ const assert = require('assert');
 const httpStatus = require('http-status');
 const supertest = require('supertest');
 
-const app = require('../index');
-const models = require('../sequelize/models');
+const app = require('../../index');
+const models = require('../../sequelize/models');
 
 describe('GET /users', () => {
     it('should return all existing users', async () => {

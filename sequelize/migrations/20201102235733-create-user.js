@@ -1,52 +1,51 @@
 module.exports = {
     up: async function (queryInterface, DataTypes) {
-        await queryInterface.createTable('results', {
+        await queryInterface.createTable('users', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER
             },
-            playerTeamSeasonId: {
-                references: {
-                    model: "playerTeamSeasons",
-                    key: "id"
-                },
-                type: DataTypes.INTEGER,
-            },
-            goals: {
+            userName: {
                 allowNull: false,
-                defaultValue: 0,
-                type: DataTypes.INTEGER
+                field: 'username',
+                type: DataTypes.STRING
             },
-            yellowCards: {
+            email: {
                 allowNull: false,
-                defaultValue: 0,
-                type: DataTypes.INTEGER
+                type: DataTypes.STRING
             },
-            redCards: {
-                allowNull: false,
-                defaultValue: 0,
-                type: DataTypes.INTEGER
+            telephone: {
+                type: DataTypes.STRING
             },
-            gamesPlayed: {
+            password: {
                 allowNull: false,
-                defaultValue: 0,
-                type: DataTypes.INTEGER
+                type: DataTypes.STRING
+            },
+            firstName: {
+                field: 'first_name',
+                type: DataTypes.STRING
+            },
+            lastName: {
+                field: 'last_name',
+                type: DataTypes.STRING
             },
             createdAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
+                field: 'created_at',
                 type: DataTypes.DATE
             },
             updatedAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
+                field: 'updated_at',
                 type: DataTypes.DATE
             }
         });
     },
     down: async function (queryInterface, DataTypes) {
-        await queryInterface.dropTable('results');
+        await queryInterface.dropTable('users');
     }
 };

@@ -3,37 +3,37 @@ module.exports = {
         return queryInterface.bulkInsert('results', [{
             playerTeamSeasonId: 1,
             goals: 5,
-            yellowCards: 1,
-            redCards: 0,
-            gamesPlayed: 8
+            yellow_cards: 1,
+            red_cards: 0,
+            games_played: 8
         },
         {
             playerTeamSeasonId: 2,
             goals: 1,
-            yellowCards: 3,
-            redCards: 2,
-            gamesPlayed: 4
+            yellow_cards: 3,
+            red_cards: 2,
+            games_played: 4
         },
         {
             playerTeamSeasonId: 3,
             goals: 2,
-            yellowCards: 2,
-            redCards: 1,
-            gamesPlayed: 7
+            yellow_cards: 2,
+            red_cards: 1,
+            games_played: 7
         },
         {
             playerTeamSeasonId: 4,
             goals: 1,
-            yellowCards: 1,
-            redCards: 0,
-            gamesPlayed: 2
+            yellow_cards: 1,
+            red_cards: 0,
+            games_played: 2
         },
         {
             playerTeamSeasonId: 5,
             goals: 4,
-            yellowCards: 2,
-            redCards: 1,
-            gamesPlayed: 9
+            yellow_cards: 2,
+            red_cards: 1,
+            games_played: 9
         }]);
     },
     down: async function (queryInterface, Sequelize) {

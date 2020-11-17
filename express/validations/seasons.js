@@ -17,14 +17,6 @@ const validations = {
 				seasonName: Joi.string()
 					.min(common.seasonNameMinLength)
 					.max(common.seasonNameMaxLength)
-					.required(),
-				startYear: Joi.date()
-					.greater('2010-01-01')
-					.less('2030-12-31')
-					.required(),
-				endYear: Joi.date()
-					.greater('2010-01-01')
-					.less('2030-12-31')
 					.required()
 			}).options({ stripUnknown: true })
 		})
@@ -41,14 +33,6 @@ const validations = {
 				seasonName: Joi.string()
 					.min(common.seasonNameMinLength)
 					.max(common.seasonNameMaxLength)
-					.required(),
-				startYear: Joi.date()
-					.greater('2010-01-01')
-					.less('2030-12-31')
-					.required(),
-				endYear: Joi.date()
-					.greater('2010-01-01')
-					.less('2030-12-31')
 					.required()
 			}).options({ stripUnknown: true })
 		}),

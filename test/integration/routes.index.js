@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const supertest = require('supertest');
 
-const app = require('../index');
+const app = require('../../index');
 
 describe('GET /', () => {
     it('should return status OK', async () => {

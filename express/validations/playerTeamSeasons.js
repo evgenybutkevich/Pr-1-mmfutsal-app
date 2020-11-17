@@ -23,6 +23,10 @@ const validations = {
 				seasonId: Joi.number()
 					.integer()
 					.positive()
+					.required(),
+				resultId: Joi.number()
+					.integer()
+					.positive()
 					.required()
 			}).options({ stripUnknown: true })
 		})
@@ -45,6 +49,10 @@ const validations = {
 					.positive()
 					.required(),
 				seasonId: Joi.number()
+					.integer()
+					.positive()
+					.required(),
+				resultId: Joi.number()
 					.integer()
 					.positive()
 					.required()

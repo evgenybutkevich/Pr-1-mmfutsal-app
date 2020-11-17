@@ -12,10 +12,6 @@ const validations = {
 	post: {
 		body: Joi.object({
 			result: Joi.object({
-				playerTeamSeasonId: Joi.number()
-					.integer()
-					.positive()
-					.required(),
 				goals: Joi.number()
 					.allow(0)
 					.integer()
@@ -44,10 +40,6 @@ const validations = {
 		}),
 		body: Joi.object({
 			result: Joi.object({
-				playerTeamSeasonId: Joi.number()
-					.integer()
-					.positive()
-					.required(),
 				goals: Joi.number()
 					.allow(0)
 					.integer()

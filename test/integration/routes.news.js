@@ -2,8 +2,8 @@ const assert = require('assert');
 const httpStatus = require('http-status');
 const supertest = require('supertest');
 
-const app = require('../index');
-const models = require('../sequelize/models');
+const app = require('../../index');
+const models = require('../../sequelize/models');
 
 describe('GET /news', () => {
     it('should return all news', async () => {
@@ -63,7 +63,7 @@ describe('POST /news', () => {
 
 describe('PUT /news/:id', () => {
     it('should update news', async () => {
-        const newHeading = 'newHeading';
+        const newHeading = 'newNewsHeading';
 
         const testNewsBefore = await models.news.findOne();
         testNewsBefore.heading = newHeading;
@@ -82,7 +82,7 @@ describe('PUT /news/:id', () => {
 
     it('should return validation error', async () => {
         await supertest(app)
-            .put('/news/7.5')
+            .put('/seasons/7.5')
             .send({ news: {} })
             .expect(httpStatus.BAD_REQUEST);
     });
@@ -105,7 +105,7 @@ describe('DELETE /news/', () => {
             .delete(`/news/${newNews.id}`)
             .expect(httpStatus.NO_CONTENT);
 
-        const newsById = await models.news.findByPk(newNews.id);
+        const newsById = await models.news.findByPk(newSeason.id);
 
         assert.deepStrictEqual(newsById, null, 'Should delete correct news');
     });

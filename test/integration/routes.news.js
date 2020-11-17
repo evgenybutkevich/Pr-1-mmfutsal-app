@@ -105,7 +105,7 @@ describe('DELETE /news/', () => {
             .delete(`/news/${newNews.id}`)
             .expect(httpStatus.NO_CONTENT);
 
-        const newsById = await models.news.findByPk(newSeason.id);
+        const newsById = await models.news.findByPk(newNews.id);
 
         assert.deepStrictEqual(newsById, null, 'Should delete correct news');
     });

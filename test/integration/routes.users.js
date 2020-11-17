@@ -25,6 +25,8 @@ describe('GET /users', () => {
             order: [
                 ['id', 'ASC']
             ],
+            offset: 0,
+            limit: 5,
             raw: true
         });
 
@@ -50,11 +52,11 @@ describe('GET /users', () => {
             .expect(httpStatus.BAD_REQUEST);
     });
 
-    it('should return users filtered by firstName', async () => {
+    it('should return users filtered by first_name', async () => {
         const res = await supertest(app)
             .get('/users')
             .query({
-                filterField: 'firstName',
+                filterField: 'first_name',
                 filterValue: 'Evgeny'
             })
             .expect(httpStatus.OK);
@@ -78,14 +80,14 @@ describe('GET /users', () => {
         });
 
         assert.deepStrictEqual(usersIdFilteredByParams, usersIdFilteredManually,
-            'should filter users by firstName');
+            'should filter users by first_name');
     });
 
     it('should return validation error for invalid filterField', async () => {
         await supertest(app)
             .get('/users')
             .query({
-                filterField: 'teamName',
+                filterField: 'team_name',
                 filterValue: 'Anton'
             })
             .expect(httpStatus.BAD_REQUEST);
@@ -164,7 +166,7 @@ describe('POST /users', () => {
         assert.deepStrictEqual(newTestUser.user.firstName, userById.firstName, 'should create correct user');
     });
 
-    it('should return validation error for invalid userName', async () => {
+    it('should return validation error for invalid user_name', async () => {
         const incorrectUser = {
             user: {
                 userName: 'us',
@@ -201,7 +203,7 @@ describe('PUT /users/:id', () => {
 
         const testUserAfter = await models.user.findByPk(testUserBefore.id);
 
-        assert.deepStrictEqual(testUserAfter.userName, newUserName, 'should update userName');
+        assert.deepStrictEqual(testUserAfter.userName, newUserName, 'should update user_name');
         assert.deepStrictEqual(testUserAfter.email, newEmail, 'should update email');
     });
 

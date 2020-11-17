@@ -27,7 +27,7 @@ describe('POST /sections', () => {
     it('should create section', async () => {
         const newTestSection = {
             section: {
-                name: 'amazing'
+                name: 'Amazing section name'
             }
         };
 
@@ -57,7 +57,7 @@ describe('POST /sections', () => {
 
 describe('PUT /sections/:id', () => {
     it('should update section', async () => {
-        const newName = 'newName';
+        const newName = 'newSectionName';
 
         const testSectionBefore = await models.section.findOne();
         testSectionBefore.name = newName;

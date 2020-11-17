@@ -25,6 +25,8 @@ describe('GET /teams', () => {
             order: [
                 ['id', 'ASC']
             ],
+            offset: 0,
+            limit: 5,
             raw: true
         });
 
@@ -44,17 +46,17 @@ describe('GET /teams', () => {
         await supertest(app)
             .get('/teams')
             .query({
-                sortField: 'userName',
+                sortField: 'user_name',
                 sortDirection: 'ASC'
             })
             .expect(httpStatus.BAD_REQUEST);
     });
 
-    it('should return teams filtered by teamName', async () => {
+    it('should return teams filtered by team_name', async () => {
         const res = await supertest(app)
             .get('/teams')
             .query({
-                filterField: 'teamName',
+                filterField: 'team_name',
                 filterValue: 'Milan'
             })
             .expect(httpStatus.OK);
@@ -78,14 +80,14 @@ describe('GET /teams', () => {
         });
 
         assert.deepStrictEqual(teamsIdFilteredByParams, teamsIdFilteredManually,
-            'should filter teams by teamName');
+            'should filter teams by team_name');
     });
 
     it('should return validation error for invalid filterField', async () => {
         await supertest(app)
             .get('/teams')
             .query({
-                filterField: 'userName',
+                filterField: 'user_name',
                 filterValue: 'Juventus'
             })
             .expect(httpStatus.BAD_REQUEST);
@@ -120,7 +122,7 @@ describe('POST /teams', () => {
         assert.deepStrictEqual(newTestTeam.team.teamName, teamById.teamName, 'should create correct team');
     });
 
-    it('should return validation error for invalid teamName', async () => {
+    it('should return validation error for invalid team_name', async () => {
         const incorrectTeam = {
             team: {
                 teamName: 'C'
@@ -150,7 +152,7 @@ describe('PUT /teams/:id', () => {
 
         const testTeamAfter = await models.team.findByPk(testTeamBefore.id);
 
-        assert.deepStrictEqual(testTeamAfter.teamName, newTeamName, 'should update teamName');
+        assert.deepStrictEqual(testTeamAfter.teamName, newTeamName, 'should update team_name');
     });
 
     it('should return validation error for invalid id', async () => {

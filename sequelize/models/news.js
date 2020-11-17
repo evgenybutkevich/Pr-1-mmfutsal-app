@@ -13,9 +13,19 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             type: DataTypes.STRING
         },
+        sectionId: {
+            allowNull: false,
+            field: 'section_id',
+            type: DataTypes.INTEGER
+        },
         content: {
             allowNull: false,
             type: DataTypes.STRING(32768)
+        },
+        userId: {
+            allowNull: false,
+            field: 'user_id',
+            type: DataTypes.INTEGER
         },
         createdAt: {
             allowNull: false,

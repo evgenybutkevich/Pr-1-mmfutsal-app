@@ -33,7 +33,7 @@ function getById(id) {
     });
 }
 
-async function mergeTeamsResults(player) {
+function mergeTeamsResults(player) {
     const { seasons, ...processedPlayer } = player;
 
     processedPlayer.seasons = seasons.map((season) => {

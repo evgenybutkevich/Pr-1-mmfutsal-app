@@ -27,9 +27,7 @@ describe('POST /seasons', () => {
     it('should create season', async () => {
         const newTestSeason = {
             season: {
-                seasonName: 'Test season',
-                startYear: '2019-09-01',
-                endYear: '2020-04-30',
+                seasonName: 'Test season'
             }
         };
 
@@ -46,9 +44,7 @@ describe('POST /seasons', () => {
     it('should return validation error', async () => {
         const incorrectSeason = {
             season: {
-                seasonName: 'T',
-                startYear: '2019-09-01',
-                endYear: '2020-04-30',
+                seasonName: 'T'
             }
         };
 
@@ -90,9 +86,7 @@ describe('DELETE /seasons/', () => {
     it('should delete season', async () => {
         const newTestSeason = {
             season: {
-                seasonName: 'Test season',
-                startYear: '2019-09-01',
-                endYear: '2020-04-30',
+                seasonName: 'Test season'
             }
         };
 

@@ -13,6 +13,9 @@ module.exports = {
     seasonNameMinLength: 2,
     seasonNameMaxLength: 20,
 
+    sectionNameMinLength: 10,
+    sectionNameMaxLength: 255,
+
     teamNameMinLength: 2,
     teamNameMaxLength: 20,
 

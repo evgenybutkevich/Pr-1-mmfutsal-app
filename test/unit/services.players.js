@@ -76,7 +76,10 @@ describe('GET /players/:id', () => {
             }]
         };
 
-        assert.deepStrictEqual(playersService.mergedTeamsResults(actualObject), expectedObject,
+        const a = playersService.mergeTeamsResults(actualObject);
+        const b = expectedObject;
+
+        assert.deepStrictEqual(playersService.mergeTeamsResults(actualObject), expectedObject,
             'should return equal objects');
     });
 });

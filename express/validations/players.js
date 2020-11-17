@@ -12,8 +12,8 @@ const validations = {
 		query: Joi.object({
 			filterField: Joi.string()
 				.valid(
-					'firstName',
-					'lastName'
+					'first_name',
+					'last_name'
 				),
 			filterValue: Joi.string()
 				.regex(common.filterValueRegex),
@@ -28,8 +28,8 @@ const validations = {
 			sortField: Joi.string()
 				.valid(
 					'id',
-					'firstName',
-					'lastName'
+					'first_name',
+					'last_name'
 				)
 				.default('id'),
 			sortDirection: Joi.string()

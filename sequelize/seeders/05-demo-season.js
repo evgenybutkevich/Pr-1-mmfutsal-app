@@ -1,19 +1,19 @@
 module.exports = {
     up: async function (queryInterface, Sequelize) {
         return queryInterface.bulkInsert('seasons', [{
-            season_name: 'First season',
+            seasonName: 'First season',
         },
         {
-            season_name: 'Second season',
+            seasonName: 'Second season',
         },
         {
-            season_name: 'Third season',
+            seasonName: 'Third season',
         },
         {
-            season_name: 'Fourth season',
+            seasonName: 'Fourth season',
         },
         {
-            season_name: 'Fifth season',
+            seasonName: 'Fifth season',
         }]);
     },
     down: async function (queryInterface, Sequelize) {

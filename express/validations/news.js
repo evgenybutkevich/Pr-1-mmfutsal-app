@@ -11,7 +11,9 @@ const validations = {
         }),
         query: Joi.object({
             filterField: Joi.string()
-                .valid(),
+                .valid(
+                    'name'
+                ),
             filterValue: Joi.string()
                 .regex(common.filterValueRegex),
             page: Joi.number()
@@ -21,7 +23,20 @@ const validations = {
             limit: Joi.number()
                 .min(common.pagination.minLimit)
                 .max(common.pagination.maxLimit)
-                .default(5)
+                .default(5),
+            sortField: Joi.string()
+                .valid(
+                    'id',
+                    'heading',
+                    'createdAt'
+                )
+                .default('id'),
+            sortDirection: Joi.string()
+                .valid(
+                    'ASC',
+                    'DESC'
+                )
+                .default('ASC')
         }),
     },
     post: {

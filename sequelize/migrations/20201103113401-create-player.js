@@ -9,24 +9,20 @@ module.exports = {
             },
             firstName: {
                 allowNull: false,
-                field: 'first_name',
                 type: DataTypes.STRING
             },
             lastName: {
                 allowNull: false,
-                field: 'last_name',
                 type: DataTypes.STRING
             },
             createdAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'created_at',
                 type: DataTypes.DATE
             },
             updatedAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'updated_at',
                 type: DataTypes.DATE
             }
         });

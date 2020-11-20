@@ -1,34 +1,34 @@
 module.exports = {
     up: async function (queryInterface, Sequelize) {
         return queryInterface.bulkInsert('playerTeamSeasons', [{
-            player_id: 1,
-            team_id: 1,
-            season_id: 1,
-            result_id: 1
+            playerId: 1,
+            teamId: 1,
+            seasonId: 1,
+            resultId: 1
         },
         {
-            player_id: 1,
-            team_id: 2,
-            season_id: 1,
-            result_id: 2
+            playerId: 1,
+            teamId: 2,
+            seasonId: 1,
+            resultId: 2
         },
         {
-            player_id: 1,
-            team_id: 2,
-            season_id: 2,
-            result_id: 3
+            playerId: 1,
+            teamId: 2,
+            seasonId: 2,
+            resultId: 3
         },
         {
-            player_id: 2,
-            team_id: 1,
-            season_id: 1,
-            result_id: 4
+            playerId: 2,
+            teamId: 1,
+            seasonId: 1,
+            resultId: 4
         },
         {
-            player_id: 2,
-            team_id: 1,
-            season_id: 2,
-            result_id: 5
+            playerId: 2,
+            teamId: 1,
+            seasonId: 2,
+            resultId: 5
         }]);
     },
     down: async function (queryInterface, Sequelize) {

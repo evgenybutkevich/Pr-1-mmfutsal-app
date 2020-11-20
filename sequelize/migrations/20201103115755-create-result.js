@@ -15,31 +15,26 @@ module.exports = {
             yellowCards: {
                 allowNull: false,
                 defaultValue: 0,
-                field: 'yellow_cards',
                 type: DataTypes.INTEGER
             },
             redCards: {
                 allowNull: false,
                 defaultValue: 0,
-                field: 'red_cards',
                 type: DataTypes.INTEGER
             },
             gamesPlayed: {
                 allowNull: false,
                 defaultValue: 0,
-                field: 'games_played',
                 type: DataTypes.INTEGER
             },
             createdAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'created_at',
                 type: DataTypes.DATE
             },
             updatedAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'updated_at',
                 type: DataTypes.DATE
             }
         });

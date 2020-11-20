@@ -46,17 +46,17 @@ describe('GET /players', () => {
         await supertest(app)
             .get('/players')
             .query({
-                sortField: 'user_name',
+                sortField: 'userName',
                 sortDirection: 'ASC'
             })
             .expect(httpStatus.BAD_REQUEST);
     });
 
-    it('should return players filtered by first_name', async () => {
+    it('should return players filtered by firstName', async () => {
         const res = await supertest(app)
             .get('/players')
             .query({
-                filterField: 'first_name',
+                filterField: 'firstName',
                 filterValue: 'Evgeny'
             })
             .expect(httpStatus.OK);
@@ -80,14 +80,14 @@ describe('GET /players', () => {
         });
 
         assert.deepStrictEqual(playersIdFilteredByParams, playersIdFilteredManually,
-            'should filter players by first_name');
+            'should filter players by firstName');
     });
 
     it('should return validation error for invalid filterField', async () => {
         await supertest(app)
             .get('/players')
             .query({
-                filterField: 'team_name',
+                filterField: 'teamName',
                 filterValue: 'Anton'
             })
             .expect(httpStatus.BAD_REQUEST);
@@ -181,7 +181,7 @@ describe('POST /players', () => {
         assert.deepStrictEqual(newTestPlayer.player.firstName, playerById.firstName, 'should create correct player');
     });
 
-    it('should return validation error for invalid first_name', async () => {
+    it('should return validation error for invalid firstName', async () => {
         const incorrectPlayer = {
             player: {
                 firstName: 'S',
@@ -212,7 +212,7 @@ describe('PUT /players/:id', () => {
 
         const testPlayerAfter = await models.player.findByPk(testPlayerBefore.id);
 
-        assert.deepStrictEqual(testPlayerAfter.firstName, newPlayerName, 'should update first_name');
+        assert.deepStrictEqual(testPlayerAfter.firstName, newPlayerName, 'should update firstName');
     });
 
     it('should return validation error for invalid id', async () => {

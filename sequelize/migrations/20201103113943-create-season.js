@@ -9,19 +9,16 @@ module.exports = {
             },
             seasonName: {
                 allowNull: false,
-                field: 'season_name',
                 type: DataTypes.STRING
             },
             createdAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'created_at',
                 type: DataTypes.DATE
             },
             updatedAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'updated_at',
                 type: DataTypes.DATE
             }
         });

@@ -46,17 +46,17 @@ describe('GET /teams', () => {
         await supertest(app)
             .get('/teams')
             .query({
-                sortField: 'user_name',
+                sortField: 'userName',
                 sortDirection: 'ASC'
             })
             .expect(httpStatus.BAD_REQUEST);
     });
 
-    it('should return teams filtered by team_name', async () => {
+    it('should return teams filtered by teamName', async () => {
         const res = await supertest(app)
             .get('/teams')
             .query({
-                filterField: 'team_name',
+                filterField: 'teamName',
                 filterValue: 'Milan'
             })
             .expect(httpStatus.OK);
@@ -80,14 +80,14 @@ describe('GET /teams', () => {
         });
 
         assert.deepStrictEqual(teamsIdFilteredByParams, teamsIdFilteredManually,
-            'should filter teams by team_name');
+            'should filter teams by teamName');
     });
 
     it('should return validation error for invalid filterField', async () => {
         await supertest(app)
             .get('/teams')
             .query({
-                filterField: 'user_name',
+                filterField: 'userName',
                 filterValue: 'Juventus'
             })
             .expect(httpStatus.BAD_REQUEST);
@@ -122,7 +122,7 @@ describe('POST /teams', () => {
         assert.deepStrictEqual(newTestTeam.team.teamName, teamById.teamName, 'should create correct team');
     });
 
-    it('should return validation error for invalid team_name', async () => {
+    it('should return validation error for invalid teamName', async () => {
         const incorrectTeam = {
             team: {
                 teamName: 'C'
@@ -152,7 +152,7 @@ describe('PUT /teams/:id', () => {
 
         const testTeamAfter = await models.team.findByPk(testTeamBefore.id);
 
-        assert.deepStrictEqual(testTeamAfter.teamName, newTeamName, 'should update team_name');
+        assert.deepStrictEqual(testTeamAfter.teamName, newTeamName, 'should update teamName');
     });
 
     it('should return validation error for invalid id', async () => {

@@ -13,7 +13,6 @@ module.exports = {
             },
             sectionId: {
                 allowNull: false,
-                field: 'section_id',
                 references: {
                     model: "sections",
                     key: "id"
@@ -26,7 +25,6 @@ module.exports = {
             },
             userId: {
                 allowNull: false,
-                field: 'user_id',
                 references: {
                     model: "users",
                     key: "id"
@@ -36,13 +34,11 @@ module.exports = {
             createdAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'created_at',
                 type: DataTypes.DATE
             },
             updatedAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'updated_at',
                 type: DataTypes.DATE
             }
         });

@@ -1,20 +1,20 @@
 const models = require('../../sequelize/models');
-const { getSearchOptions } = require('../../utils/sequelize');
+const { getFilterOptions, getSortOptions, getPageOptions } = require('../../utils/sequelize');
 
-function getAll(params) {
-    return models.news.findAndCountAll(params, {
+function getAll({ filterField, filterValue, sortField, sortDirection, page, limit }) {
+    return models.news.findAndCountAll({
         include: [
             {
                 model: models.section,
-                ...getSearchOptions(params)
+                ...getFilterOptions({ filterField, filterValue })
             },
             {
                 model: models.user
             }
         ],
-        order: [
-            ['id', 'ASC']
-        ],
+        ...getSortOptions({ sortField, sortDirection }),
+        ...getPageOptions({ page, limit }),
+        distinct: true
     });
 }
 

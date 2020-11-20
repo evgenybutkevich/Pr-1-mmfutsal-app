@@ -2,33 +2,33 @@ module.exports = {
     up: async function (queryInterface, Sequelize) {
         return queryInterface.bulkInsert('results', [{
             goals: 5,
-            yellow_cards: 1,
-            red_cards: 0,
-            games_played: 8
+            yellowCards: 1,
+            redCards: 0,
+            gamesPlayed: 8
         },
         {
             goals: 1,
-            yellow_cards: 3,
-            red_cards: 2,
-            games_played: 4
+            yellowCards: 3,
+            redCards: 2,
+            gamesPlayed: 4
         },
         {
             goals: 2,
-            yellow_cards: 2,
-            red_cards: 1,
-            games_played: 7
+            yellowCards: 2,
+            redCards: 1,
+            gamesPlayed: 7
         },
         {
             goals: 1,
-            yellow_cards: 1,
-            red_cards: 0,
-            games_played: 2
+            yellowCards: 1,
+            redCards: 0,
+            gamesPlayed: 2
         },
         {
             goals: 4,
-            yellow_cards: 2,
-            red_cards: 1,
-            games_played: 9
+            yellowCards: 2,
+            redCards: 1,
+            gamesPlayed: 9
         }]);
     },
     down: async function (queryInterface, Sequelize) {

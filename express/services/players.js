@@ -1,8 +1,13 @@
 const models = require('../../sequelize/models');
-const { getSearchOptions } = require('../../utils/sequelize');
+const { getFilterOptions, getSortOptions, getPageOptions } = require('../../utils/sequelize');
 
-function getAll(params) {
-    return models.player.findAndCountAll(getSearchOptions(params));
+function getAll({ filterField, filterValue, sortField, sortDirection, page, limit }) {
+    return models.player.findAndCountAll({
+        ...getFilterOptions({ filterField, filterValue }),
+        ...getSortOptions({ sortField, sortDirection }),
+        ...getPageOptions({ page, limit }),
+        distinct: true
+    });
 }
 
 function getById(id) {

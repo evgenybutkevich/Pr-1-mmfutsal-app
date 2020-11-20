@@ -9,7 +9,6 @@ module.exports = {
             },
             userName: {
                 allowNull: false,
-                field: 'username',
                 type: DataTypes.STRING
             },
             email: {
@@ -24,23 +23,19 @@ module.exports = {
                 type: DataTypes.STRING
             },
             firstName: {
-                field: 'first_name',
                 type: DataTypes.STRING
             },
             lastName: {
-                field: 'last_name',
                 type: DataTypes.STRING
             },
             createdAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'created_at',
                 type: DataTypes.DATE
             },
             updatedAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'updated_at',
                 type: DataTypes.DATE
             }
         });

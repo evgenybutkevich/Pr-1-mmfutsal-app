@@ -13,7 +13,7 @@ const validations = {
 			filterField: Joi.string()
 				.valid(
 					'id',
-					'team_name'
+					'teamName'
 				),
 			filterValue: Joi.string()
 				.regex(common.filterValueRegex),
@@ -28,7 +28,7 @@ const validations = {
 			sortField: Joi.string()
 				.valid(
 					'id',
-					'team_name'
+					'teamName'
 				)
 				.default('id'),
 			sortDirection: Joi.string()

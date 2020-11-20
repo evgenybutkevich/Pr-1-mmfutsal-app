@@ -19,8 +19,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(errorHandler);
-
 app.use(router);
 
 app.get('/', (req, res) => {
@@ -30,5 +28,7 @@ app.get('/', (req, res) => {
 app.listen(process.env.EXPRESS_PORT, () => {
     console.log(`Express server listening on port ${process.env.EXPRESS_PORT}...`);
 });
+
+app.use(errorHandler);
 
 module.exports = app;

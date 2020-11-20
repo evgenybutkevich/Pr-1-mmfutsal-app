@@ -8,7 +8,6 @@ module.exports = {
                 type: DataTypes.INTEGER
             },
             playerId: {
-                field: 'player_id',
                 references: {
                     model: "players",
                     key: "id"
@@ -16,7 +15,6 @@ module.exports = {
                 type: DataTypes.INTEGER,
             },
             teamId: {
-                field: 'team_id',
                 references: {
                     model: "teams",
                     key: "id"
@@ -24,7 +22,6 @@ module.exports = {
                 type: DataTypes.INTEGER,
             },
             seasonId: {
-                field: 'season_id',
                 references: {
                     model: "seasons",
                     key: "id"
@@ -32,7 +29,6 @@ module.exports = {
                 type: DataTypes.INTEGER,
             },
             resultId: {
-                field: 'result_id',
                 references: {
                     model: "results",
                     key: "id"
@@ -42,13 +38,11 @@ module.exports = {
             createdAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'created_at',
                 type: DataTypes.DATE
             },
             updatedAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),
-                field: 'updated_at',
                 type: DataTypes.DATE
             }
         });

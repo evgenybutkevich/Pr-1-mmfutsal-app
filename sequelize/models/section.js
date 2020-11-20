@@ -1,7 +1,11 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Section extends Model { };
+    class Section extends Model {
+        static associate(models) {
+            Section.hasMany(models.news);
+        }
+    };
 
     Section.init({
         name: {
@@ -11,13 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         createdAt: {
             allowNull: false,
             defaultValue: DataTypes.NOW,
-            field: 'created_at',
             type: DataTypes.DATE
         },
         updatedAt: {
             allowNull: false,
             defaultValue: DataTypes.NOW,
-            field: 'updated_at',
             type: DataTypes.DATE
         }
     }, {

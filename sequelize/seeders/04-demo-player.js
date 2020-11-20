@@ -1,44 +1,44 @@
 module.exports = {
     up: async function (queryInterface, Sequelize) {
         return queryInterface.bulkInsert('players', [{
-            first_name: 'Evgeny',
-            last_name: 'Butkevich'
+            firstName: 'Evgeny',
+            lastName: 'Butkevich'
         },
         {
-            first_name: 'Anton',
-            last_name: 'Fomenok'
+            firstName: 'Anton',
+            lastName: 'Fomenok'
         },
         {
-            first_name: 'Mikhail',
-            last_name: 'Sudnikovich'
+            firstName: 'Mikhail',
+            lastName: 'Sudnikovich'
         },
         {
-            first_name: 'Ilya',
-            last_name: 'Faley'
+            firstName: 'Ilya',
+            lastName: 'Faley'
         },
         {
-            first_name: 'Arthur',
-            last_name: 'Shket'
+            firstName: 'Arthur',
+            lastName: 'Shket'
         },
         {
-            first_name: 'Evgeny',
-            last_name: 'Karlenok'
+            firstName: 'Evgeny',
+            lastName: 'Karlenok'
         },
         {
-            first_name: 'Anton',
-            last_name: 'Kucher'
+            firstName: 'Anton',
+            lastName: 'Kucher'
         },
         {
-            first_name: 'Ilya',
-            last_name: 'Sinko'
+            firstName: 'Ilya',
+            lastName: 'Sinko'
         },
         {
-            first_name: 'Evgeny',
-            last_name: 'Gorokhovich'
+            firstName: 'Evgeny',
+            lastName: 'Gorokhovich'
         },
         {
-            first_name: 'Vova',
-            last_name: 'Linnik'
+            firstName: 'Vova',
+            lastName: 'Linnik'
         }]);
     },
     down: async function (queryInterface, Sequelize) {

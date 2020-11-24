@@ -1,3 +1,6 @@
+const { QueryTypes } = require('sequelize');
+
+const db = require('../../sequelize/models/index');
 const models = require('../../sequelize/models');
 const { getFilterOptions, getSortOptions, getPageOptions } = require('../../utils/sequelize');
 
@@ -82,6 +85,20 @@ function remove(id) {
     });
 }
 
+function getBestPlayers() {
+    const rawQuery = `SELECT DISTINCT ON ("team"."teamName") "teamName",
+        "player"."id", "player"."firstName", "player"."lastName", "player"."avatar",
+        CAST(CAST("result"."goals" AS DECIMAL(5,3))/"result"."gamesPlayed" AS DECIMAL(5,3)) AS "quotient"
+            FROM "players" AS "player"
+            INNER JOIN "playerTeamSeasons" AS "playerTeamSeason" ON "player"."id" = "playerTeamSeason"."playerId"
+            INNER JOIN "teams" AS "team" ON "team"."id" = "playerTeamSeason"."teamId"
+            INNER JOIN "results" AS "result" ON "result"."id" = "playerTeamSeason"."resultId"
+            WHERE "playerTeamSeason"."seasonId" = 1 AND "result"."gamesPlayed" > 0
+            ORDER BY "team"."teamName", "quotient" DESC`;
+
+    return db.sequelize.query(rawQuery, { type: QueryTypes.SELECT });
+}
+
 module.exports = {
     getAll,
     getById,
@@ -89,4 +106,5 @@ module.exports = {
     create,
     update,
     remove,
+    getBestPlayers
 }

@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', validate(sectionsValidation.get), async (req, res) => {
     const sections = await sectionsService.getAll();
 
-    return res.send({ sections })
+    return res.send({ sections });
 });
 
 router.get('/:id', validate(sectionsValidation.get), async (req, res) => {

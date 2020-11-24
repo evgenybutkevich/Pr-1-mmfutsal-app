@@ -15,6 +15,9 @@ module.exports = {
                 allowNull: false,
                 type: DataTypes.STRING
             },
+            avatar: {
+                type: DataTypes.STRING
+            },
             createdAt: {
                 allowNull: false,
                 defaultValue: DataTypes.fn('now'),

@@ -8,7 +8,7 @@ module.exports = {
             recordsList.push({
                 firstName: faker.name.firstName(0),
                 lastName: faker.name.lastName(0),
-                avatar: faker.internet.avatar()
+                avatar: `https://i.pravatar.cc/150?img=${i}`
             });
         }
 

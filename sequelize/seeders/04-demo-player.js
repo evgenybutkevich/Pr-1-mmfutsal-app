@@ -1,45 +1,18 @@
+const faker = require('faker');
+
 module.exports = {
     up: async function (queryInterface, Sequelize) {
-        return queryInterface.bulkInsert('players', [{
-            firstName: 'Evgeny',
-            lastName: 'Butkevich'
-        },
-        {
-            firstName: 'Anton',
-            lastName: 'Fomenok'
-        },
-        {
-            firstName: 'Mikhail',
-            lastName: 'Sudnikovich'
-        },
-        {
-            firstName: 'Ilya',
-            lastName: 'Faley'
-        },
-        {
-            firstName: 'Arthur',
-            lastName: 'Shket'
-        },
-        {
-            firstName: 'Evgeny',
-            lastName: 'Karlenok'
-        },
-        {
-            firstName: 'Anton',
-            lastName: 'Kucher'
-        },
-        {
-            firstName: 'Ilya',
-            lastName: 'Sinko'
-        },
-        {
-            firstName: 'Evgeny',
-            lastName: 'Gorokhovich'
-        },
-        {
-            firstName: 'Vova',
-            lastName: 'Linnik'
-        }]);
+        const recordsList = [];
+
+        for (let i = 1; i <= 50; i++) {
+            recordsList.push({
+                firstName: faker.name.firstName(0),
+                lastName: faker.name.lastName(0),
+                avatar: faker.internet.avatar()
+            });
+        }
+
+        return queryInterface.bulkInsert('players', recordsList);
     },
     down: async function (queryInterface, Sequelize) {
         return queryInterface.bulkDelete('players', null, {});

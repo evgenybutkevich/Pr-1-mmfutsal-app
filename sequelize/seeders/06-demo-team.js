@@ -14,6 +14,21 @@ module.exports = {
         },
         {
             teamName: 'Dinamo-Brest'
+        },
+        {
+            teamName: 'Molodechno'
+        },
+        {
+            teamName: 'Arcenal'
+        },
+        {
+            teamName: 'BATE'
+        },
+        {
+            teamName: 'PSJ'
+        },
+        {
+            teamName: 'Lokomotiv'
         }]);
     },
     down: async function (queryInterface, Sequelize) {

@@ -6,6 +6,6 @@ module.exports = {
     },
 
     down: async function (queryInterface, DataTypes) {
-        // await queryInterface.removeColumn('players', 'avatar');
+        await queryInterface.removeColumn('players', 'avatar');
     }
 };

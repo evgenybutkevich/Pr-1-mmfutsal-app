@@ -3,7 +3,9 @@ module.exports = {
         const recordsList = [];
 
         function getRandomInteger(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
+            const mathExpression = Math.floor(Math.random() * (max - min + 1)) + min;
+
+            return mathExpression;
         }
 
         for (let i = 1; i <= 50; i++) {

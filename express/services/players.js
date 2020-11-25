@@ -4,6 +4,31 @@ const db = require('../../sequelize/models/index');
 const models = require('../../sequelize/models');
 const { getFilterOptions, getSortOptions, getPageOptions } = require('../../utils/sequelize');
 
+const bestPlayersQuery = `
+    select
+        distinct on
+        ("team"."teamName") "teamName",
+        "player"."id",
+        "player"."firstName",
+        "player"."lastName",
+        "player"."avatar",
+        cast(cast("result"."goals" as DECIMAL(5, 3))/ "result"."gamesPlayed" as DECIMAL(5, 3)) as "quotient"
+    from
+        "players" as "player"
+    inner join "playerTeamSeasons" as "playerTeamSeason" on
+        "player"."id" = "playerTeamSeason"."playerId"
+    inner join "teams" as "team" on
+        "team"."id" = "playerTeamSeason"."teamId"
+    inner join "results" as "result" on
+        "result"."id" = "playerTeamSeason"."resultId"
+    where
+        "playerTeamSeason"."seasonId" = 1
+        and "result"."gamesPlayed" > 0
+    order by
+        "team"."teamName",
+        "quotient" desc
+`;
+
 function getAll({ filterField, filterValue, sortField, sortDirection, page, limit }) {
     return models.player.findAndCountAll({
         ...getFilterOptions({ filterField, filterValue }),
@@ -86,17 +111,7 @@ function remove(id) {
 }
 
 function getBestPlayers() {
-    const rawQuery = `SELECT DISTINCT ON ("team"."teamName") "teamName",
-        "player"."id", "player"."firstName", "player"."lastName", "player"."avatar",
-        CAST(CAST("result"."goals" AS DECIMAL(5,3))/"result"."gamesPlayed" AS DECIMAL(5,3)) AS "quotient"
-            FROM "players" AS "player"
-            INNER JOIN "playerTeamSeasons" AS "playerTeamSeason" ON "player"."id" = "playerTeamSeason"."playerId"
-            INNER JOIN "teams" AS "team" ON "team"."id" = "playerTeamSeason"."teamId"
-            INNER JOIN "results" AS "result" ON "result"."id" = "playerTeamSeason"."resultId"
-            WHERE "playerTeamSeason"."seasonId" = 1 AND "result"."gamesPlayed" > 0
-            ORDER BY "team"."teamName", "quotient" DESC`;
-
-    return db.sequelize.query(rawQuery, { type: QueryTypes.SELECT });
+    return db.sequelize.query(bestPlayersQuery, { type: QueryTypes.SELECT });
 }
 
 module.exports = {

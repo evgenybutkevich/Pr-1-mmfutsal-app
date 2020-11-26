@@ -1,15 +1,16 @@
 const faker = require('faker');
 
+const recordsList = [];
+const recordsNumber = 50;
+const avatarUrl = 'https://i.pravatar.cc/150?img=';
+
 module.exports = {
     up: async function (queryInterface, Sequelize) {
-        const recordsList = [];
-        const imageUrl = 'https://i.pravatar.cc/150?img=';
-
-        for (let i = 1; i <= 50; i++) {
+        for (let i = 1; i <= recordsNumber; i++) {
             recordsList.push({
                 firstName: faker.name.firstName(0),
                 lastName: faker.name.lastName(0),
-                avatar: imageUrl + i
+                avatar: avatarUrl + i
             });
         }
 

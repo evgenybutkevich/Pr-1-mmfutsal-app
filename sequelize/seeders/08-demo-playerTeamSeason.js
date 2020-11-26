@@ -1,8 +1,9 @@
+const recordsList = [];
+const recordsNumber = 50;
+
 module.exports = {
     up: async function (queryInterface, Sequelize) {
-        const recordsList = [];
-
-        for (let i = 1, j = 1; i <= 50; i++) {
+        for (let i = 1, j = 1; i <= recordsNumber; i++) {
             recordsList.push({
                 playerId: i,
                 teamId: j,

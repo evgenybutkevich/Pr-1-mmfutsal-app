@@ -50,7 +50,8 @@ const validations = {
 				lastName: Joi.string()
 					.min(common.lastNameMinLength)
 					.max(common.lastNameMaxLength)
-					.required()
+					.required(),
+				avatar: Joi.string()
 			}).options({ stripUnknown: true })
 		})
 	},

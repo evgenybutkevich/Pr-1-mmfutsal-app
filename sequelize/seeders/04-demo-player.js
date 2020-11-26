@@ -1,45 +1,21 @@
+const faker = require('faker');
+
+const RECORDS_NUMBER = 50;
+const AVATAR_URL = 'https://i.pravatar.cc/150?img=';
+
 module.exports = {
     up: async function (queryInterface, Sequelize) {
-        return queryInterface.bulkInsert('players', [{
-            firstName: 'Evgeny',
-            lastName: 'Butkevich'
-        },
-        {
-            firstName: 'Anton',
-            lastName: 'Fomenok'
-        },
-        {
-            firstName: 'Mikhail',
-            lastName: 'Sudnikovich'
-        },
-        {
-            firstName: 'Ilya',
-            lastName: 'Faley'
-        },
-        {
-            firstName: 'Arthur',
-            lastName: 'Shket'
-        },
-        {
-            firstName: 'Evgeny',
-            lastName: 'Karlenok'
-        },
-        {
-            firstName: 'Anton',
-            lastName: 'Kucher'
-        },
-        {
-            firstName: 'Ilya',
-            lastName: 'Sinko'
-        },
-        {
-            firstName: 'Evgeny',
-            lastName: 'Gorokhovich'
-        },
-        {
-            firstName: 'Vova',
-            lastName: 'Linnik'
-        }]);
+        const recordsList = [];
+
+        for (let i = 1; i <= RECORDS_NUMBER; i++) {
+            recordsList.push({
+                firstName: faker.name.firstName(0),
+                lastName: faker.name.lastName(0),
+                avatar: AVATAR_URL + i
+            });
+        }
+
+        return queryInterface.bulkInsert('players', recordsList);
     },
     down: async function (queryInterface, Sequelize) {
         return queryInterface.bulkDelete('players', null, {});

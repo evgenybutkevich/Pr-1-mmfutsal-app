@@ -14,8 +14,7 @@ const validations = {
                 .valid(
                     'name'
                 ),
-            filterValue: Joi.string()
-                .regex(common.filterValueRegex),
+            filterValue: Joi.string(),
             page: Joi.number()
                 .integer()
                 .positive()

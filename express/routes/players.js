@@ -20,6 +20,12 @@ router.get('/', validate(playersValidation.get), async (req, res) => {
 	})
 });
 
+router.get('/best-players', async (req, res) => {
+	const players = await playersService.getBestPlayers();
+
+	return res.send({ bestPlayers: players });
+});
+
 router.get('/:id', validate(playersValidation.get), async (req, res) => {
 	const player = await playersService.getById(req.params.id);
 

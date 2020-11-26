@@ -1,35 +1,25 @@
+const RECORDS_NUMBER = 50;
+
+function getRandomInteger(min, max) {
+    const mathExpression = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    return mathExpression;
+}
+
 module.exports = {
     up: async function (queryInterface, Sequelize) {
-        return queryInterface.bulkInsert('results', [{
-            goals: 5,
-            yellowCards: 1,
-            redCards: 0,
-            gamesPlayed: 8
-        },
-        {
-            goals: 1,
-            yellowCards: 3,
-            redCards: 2,
-            gamesPlayed: 4
-        },
-        {
-            goals: 2,
-            yellowCards: 2,
-            redCards: 1,
-            gamesPlayed: 7
-        },
-        {
-            goals: 1,
-            yellowCards: 1,
-            redCards: 0,
-            gamesPlayed: 2
-        },
-        {
-            goals: 4,
-            yellowCards: 2,
-            redCards: 1,
-            gamesPlayed: 9
-        }]);
+        const recordsList = [];
+
+        for (let i = 1; i <= RECORDS_NUMBER; i++) {
+            recordsList.push({
+                goals: getRandomInteger(0, 30),
+                yellowCards: getRandomInteger(0, 10),
+                redCards: getRandomInteger(0, 10),
+                gamesPlayed: getRandomInteger(0, 18)
+            });
+        }
+
+        return queryInterface.bulkInsert('results', recordsList);
     },
     down: async function (queryInterface, Sequelize) {
         return queryInterface.bulkDelete('results', null, {});

@@ -1,5 +1,4 @@
-const recordsList = [];
-const recordsNumber = 50;
+const RECORDS_NUMBER = 50;
 
 function getRandomInteger(min, max) {
     const mathExpression = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -9,7 +8,9 @@ function getRandomInteger(min, max) {
 
 module.exports = {
     up: async function (queryInterface, Sequelize) {
-        for (let i = 1; i <= recordsNumber; i++) {
+        const recordsList = [];
+
+        for (let i = 1; i <= RECORDS_NUMBER; i++) {
             recordsList.push({
                 goals: getRandomInteger(0, 30),
                 yellowCards: getRandomInteger(0, 10),

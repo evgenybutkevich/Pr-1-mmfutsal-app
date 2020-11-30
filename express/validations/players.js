@@ -52,6 +52,7 @@ const validations = {
 					.max(common.lastNameMaxLength)
 					.required(),
 				avatar: Joi.string()
+					.valid(null)
 			}).options({ stripUnknown: true })
 		})
 	},
